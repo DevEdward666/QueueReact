@@ -1,0 +1,5 @@
+export const GET_MESSAGES = "GET_MESSAGES";
+export const GET_USERS = "GET_USERS";
+export const SELECTED_USER = "SELECTED_USER";
+export const MESSAGE_COMPOSE = "MESSAGE_COMPOSE";
+export const NOTIFY_CALLING = "NOTIFY_CALLING";

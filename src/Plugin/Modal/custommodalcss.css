@@ -1,0 +1,38 @@
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.paper {
+  background-color: white;
+  width: 20%;
+  padding: 2%;
+  align-items: center;
+}
+.buttons-call {
+  position: absolute;
+}
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: -10%;
+}
+.body {
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15%;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15%;
+}
