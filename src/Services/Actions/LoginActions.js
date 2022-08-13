@@ -12,6 +12,7 @@ export const action_Login_user = (username, password) => async () => {
   })
     .then((response) => response.json())
     .then((res) => {
+      console.log(res)
       if (res.success) {
         window.localStorage.setItem("queue_token", res.data.access_token);
         window.localStorage.setItem("refreshtoken", res.data.refresh_token);

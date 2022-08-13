@@ -185,12 +185,12 @@ export const action_generate_numbers =
       .then((response) => response.json())
       .then((res) => {
         dispatch({
-          type: SET_BASE64TO_PDF,
-          payload: { base64topdf: res.data, openbackdrop: false },
-        });
-        dispatch({
           type: NUMBER_GENERATED_CASHIER,
           payload: res.success,
+        });
+        dispatch({
+          type: SET_BASE64TO_PDF,
+          payload: { base64topdf: res.data, openbackdrop: false },
         });
         console.log(res.success);
         // res.data.map((i)=>{
@@ -375,7 +375,7 @@ export const get_client_message = () => async (dispatch) => {
       console.log(res);
       dispatch({
         type: GET_CLIENT_MESSAGE,
-        payload: res?.data[0]?.message,
+        payload: res?.data?.message,
       });
     });
 };

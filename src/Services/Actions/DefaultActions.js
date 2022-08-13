@@ -15,17 +15,16 @@ export const getuserinfo = () => async (dispatch) => {
 
   const response = await fetch(url, {
     method: "POST",
-    withCredentials: true,
     headers: {
-      Authorization: bearer,
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
     },
-  });
-
-  const jsonData = response.json();
-  dispatch({
-    type: GET_USER_INFO,
-    payload: jsonData,
+  })
+  .then((response) => response.json())
+  .then((res) => {
+    dispatch({
+      type: GET_USER_INFO,
+      payload: res.data,
+    });
   });
 };
 
@@ -64,8 +63,9 @@ export const getname = () => async (dispatch) => {
 };
 export const action_notify_signal_mobile =
   (open, message, type, from, to) => async (dispatch) => {
+    console.log(message,type,from,to)
     var url = `${process.env.REACT_APP_BASE_URL}api/notificationmobile`;
-    await fetch(url, {
+     fetch(url, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -74,7 +74,7 @@ export const action_notify_signal_mobile =
       body: JSON.stringify({
         notification: message,
         from: from,
-        to: to,
+        to: to.toString(),
         type: type,
       }),
     })
@@ -89,7 +89,7 @@ export const action_notify_signal_mobile =
 export const action_set_notification =
   (open, message, type, from, to) => async (dispatch) => {
     var url = `${process.env.REACT_APP_BASE_URL}api/queue/notification`;
-    await fetch(url, {
+     fetch(url, {
       method: "POST",
       withCredentials: true,
       headers: {
@@ -99,7 +99,7 @@ export const action_set_notification =
       body: JSON.stringify({
         notification: message,
         from: from,
-        to: to,
+        to: to.toString(),
         type: type,
       }),
     })

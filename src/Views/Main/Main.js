@@ -4,6 +4,7 @@ import QueueUI from "./QueueUI";
 import {
   action_getCounterList,
   set_counterview,
+  selectedpage
 } from "../../Services/Actions/QueueActions";
 import { getuserinfo } from "../../Services/Actions/DefaultActions";
 import NextTone from "./Player/NextTone";
@@ -30,6 +31,8 @@ export default function Main() {
     (state) => state.DefaultReducers.hubconnectnotifymobile
   );
   const served = useSelector((state) => state.CashierReducers.served);
+  const pagelist = useSelector((state) => state.QueueReducers.pagelist);
+  
   //   const lastqueue = useSelector((state) => state.CashierReducers.lastqueue);
   useEffect(() => {
     let mounted = true;
@@ -95,7 +98,7 @@ export default function Main() {
       return false;
     };
   }, [dispatch, selectedLobby, served, notify, notifymobile]);
-
+  
   useEffect(() => {
     let mounted = true;
 
@@ -103,6 +106,7 @@ export default function Main() {
       dispatch(getuserinfo());
       if (!lobbynoexist) {
         setOpen(true);
+        dispatch(selectedpage(true));
       }
     };
 
@@ -114,8 +118,21 @@ export default function Main() {
   }, [dispatch, lobbynoexist]);
   useEffect(() => {
     let mounted = true;
+    const getinfo = async () => {
+      if (!pagelist) {
+        setOpen(pagelist);
+      }
+    };
+    mounted && getinfo();
+    return () => {
+      return false;
+    };
+  }, [dispatch, pagelist]);
+  useEffect(() => {
+    let mounted = true;
 
     const notifys = async () => {
+      console.log(notify)
       //   if (lastqueue !== [] && lastqueue[0]?.queueno !== undefined) {
       //     var utterThis = new SpeechSynthesisUtterance(
       //       `Queue Number ${lastqueue[0]?.queueno}. Please go to ${notify?.type} . Counter ${notify?.to}.`
@@ -130,14 +147,14 @@ export default function Main() {
           `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`
         );
         setPlay(true);
-        utterThis2.voice = voices[20];
+        utterThis2.voice = voices[22];
         await synth.speak(utterThis2);
       } else if (notifymobile.from === "CASHIER") {
         var utterThis3 = new SpeechSynthesisUtterance(
           `Queue Number ${notifymobile?.Notification}. Please go to ${notifymobile?.type} . Counter ${notifymobile?.to}.`
         );
         setPlay(true);
-        utterThis3.voice = voices[20];
+        utterThis3.voice = voices[22];
         await synth.speak(utterThis3);
       }
     };

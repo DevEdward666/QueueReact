@@ -6,9 +6,9 @@ const CustomList = ({list}) => {
   const classes = UseStyles();
     return (
         <List className={classes.rootList}>
-        {list?.map((item) => (
+        {list?.map((item, index) => (
           <>
-            <ListItem alignItems="flex-start">
+            <ListItem alignItems="flex-start" key={index}>
            
               <ListItemText
                 secondary={
