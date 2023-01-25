@@ -38,19 +38,20 @@ export const action_get_countertable = () => async (dispatch) => {
 
 export const action_get_countertype = () => async (dispatch) => {
   var url = `${process.env.REACT_APP_BASE_URL}api/queue/getcountertype`;
-
-  const response = await fetch(url, {
+   fetch(url, {
     method: "POST",
     withCredentials: true,
     headers: {
       Authorization: bearer,
       "Content-Type": "application/json",
     },
-  });
-  const jsonData = await response.json();
-  dispatch({
-    type: GET_COUNTER_TYPE,
-    payload: jsonData.data,
+  })
+  .then((response) => response.json())
+  .then((res) => {
+    dispatch({
+      type: GET_COUNTER_TYPE,
+      payload: res.data,
+    });
   });
 };
 
@@ -93,7 +94,6 @@ export const action_add_counter =
           type: SET_SUCCESS,
           payload: { success: res.success, message: res.message },
         });
-        console.log(res);
       });
   };
 
@@ -137,7 +137,6 @@ export const addcounter_number =
           type: SET_COUNTER_NUMBER,
           payload: { message: res.message, success: res.success },
         });
-        console.log(res);
       });
   };
 
@@ -237,6 +236,7 @@ export const action_lobbytable = () => async (dispatch) => {
   });
   const jsonData = await response.json();
   dispatch({ type: LOBBY_TABLE, payload: jsonData.data });
+  console.log(jsonData.data)
 };
 export const action_userlists_select = () => async (dispatch) => {
   var url = `${process.env.REACT_APP_BASE_URL}api/user/getselectusers`;

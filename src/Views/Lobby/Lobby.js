@@ -36,8 +36,8 @@ const Lobby = () => {
       <Container fixed>
         <Paper style={{ minHeight: 800 }}>
           <Grid container spacing={0}>
-            {lobbylists?.data?.map((card) => (
-              <Grid item xs={4}>
+            {lobbylists?.data?.map((card, index) => (
+              <Grid item xs={4} key={card.lobbyno}>
                 <IconButton
                   className={classes.mainGrid}
                   onClick={() => handleLobbyClick(card)}

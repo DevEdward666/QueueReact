@@ -17,6 +17,7 @@ import {
   action_setsnackbar,
   action_add_counter,
   action_tableclick,
+  action_get_countertable
 } from "../../../Services/Actions/AdminActions";
 import useStyles from "./style";
 export default function AddCashier() {
@@ -28,6 +29,7 @@ export default function AddCashier() {
     (state) => state.AdminReducers.countertype
   );
   const setbtntext = useSelector((state) => state.AdminReducers.setbtntext);
+  const rescountertable = useSelector((state) => state.AdminReducers.add_counter_success);
   const handleChange = useCallback(async (event) => {
     settypeclient(event.target.value);
   }, []);
@@ -44,9 +46,21 @@ export default function AddCashier() {
       dispatch(action_add_counter(countername, typeclient));
     }
   }, [countername, dispatch, typeclient]);
+  useEffect(()=>{
+    let mounted =true;
+    const addcashiersuccess = async () => {
+    if(mounted){ 
+       dispatch(action_get_countertable());
+    }
+  }
+    mounted && addcashiersuccess();
+    return () => {
+      return false;
+    };
+  },[dispatch,rescountertable])
   const handleCancel = useCallback(() => {
     dispatch(action_tableclick("Add"));
-  }, [dispatch]);
+  }, [dispatch,]);
   return (
     <Container fixed>
       <Grid container spacing={3} justifyContent="center" alignItems="center">
@@ -73,7 +87,7 @@ export default function AddCashier() {
               onChange={(e) => handleChange(e)}
             >
               {selectcountertype?.map((type, index) => (
-                <MenuItem key={index} value={type.typename}>
+                <MenuItem key={type.typename} value={type.typename}>
                   {type.typename}
                 </MenuItem>
               ))}

@@ -90,9 +90,9 @@ const QueueUI = () => {
           <Divider variant={"fullWidth"} classes={{ fontWeight: 900 }} />
           <Divider variant={"fullWidth"} classes={{ fontWeight: 900 }} />
           <Grid container spacing={12}>
-            {counterlist?.data?.map((card) => (
+            {counterlist?.data?.map((card,index) => (
               <>
-                <Grid item xs={4}>
+                <Grid item xs={4} key={card.countername}>
                   <Paper
                     elevation={3}
                     style={{
@@ -161,8 +161,8 @@ const QueueUI = () => {
       ) : (
         <div className={classes.subroot}>
           <Grid container spacing={3}>
-            {counterlist?.data?.map((card) => (
-              <Grid item xs={4}>
+            {counterlist?.data?.map((card, index) => (
+              <Grid item xs={4} key={card.countername}>
                 <Paper
                   elevation={3}
                   style={{

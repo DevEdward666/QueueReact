@@ -17,6 +17,8 @@ import {
   action_setsnackbar,
   addlobbydtls,
   action_getcounternumber,
+  action_lobbytable,
+  action_get_countertable
 } from "../../../Services/Actions/AdminActions";
 export default function AddLobbyDtls() {
   const getcounternumber = useSelector(
@@ -28,7 +30,7 @@ export default function AddLobbyDtls() {
   const countertable = useSelector((state) => state.AdminReducers.countertable);
   const lobbytable = useSelector((state) => state.AdminReducers.lobbytable);
   const [selectCounter, setselectCounter] = useState("");
-  const [selectCounterNo, setselectCounterNo] = useState("");
+  const [selectCounterNo, setselectCounterNo] = useState(0);
   const [lobbySelected, setlobbySelected] = useState("");
   const handleChangeCounterSelect = (event) => {
     setselectCounter(event.target.value);
@@ -56,6 +58,8 @@ export default function AddLobbyDtls() {
       if (mounted) {
         if (addcallback) {
           dispatch(action_setsnackbar("Successfully Added", "info", true));
+          dispatch(action_lobbytable());
+          dispatch(action_get_countertable());
         }
       }
     };
@@ -112,7 +116,7 @@ export default function AddLobbyDtls() {
                     fullWidth={true}
                     onChange={handleChangeCounterSelect}
                   >
-                    {countertable?.map((counters) => (
+                    {countertable?.map((counters, index) => (
                       <MenuItem
                         key={counters.countername}
                         value={counters.countername}

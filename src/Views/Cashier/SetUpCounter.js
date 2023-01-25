@@ -71,7 +71,7 @@ export default function SetUpCounter() {
                 onChange={handleChangeCounterSelect}
               >
                 {counterno?.map((counters, index) => (
-                  <MenuItem key={index} value={counters.countername}>
+                  <MenuItem key={counters.countername} value={counters.countername}>
                     {counters.countername}
                   </MenuItem>
                 ))}
@@ -91,7 +91,7 @@ export default function SetUpCounter() {
                 onChange={handleChangeCounterNoSelect}
               >
                 {selectedcounter?.map((no, index) => (
-                  <MenuItem key={index} value={no.counter_name}>
+                  <MenuItem key={no.counter_name} value={no.counter_name}>
                     {no.counter_name}
                   </MenuItem>
                 ))}
@@ -112,7 +112,7 @@ export default function SetUpCounter() {
                 onChange={handlecountertypeChange}
               >
                 {selectcountertype?.map((type, index) => (
-                  <MenuItem key={index} value={type.typename}>
+                  <MenuItem key={type.typename} value={type.typename}>
                     {type.typename}
                   </MenuItem>
                 ))}

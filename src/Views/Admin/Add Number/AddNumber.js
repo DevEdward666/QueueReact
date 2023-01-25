@@ -26,6 +26,7 @@ import {
   addcounter_number,
   action_get_countertable,
   action_geno,
+  getcounters_table,
 } from "../../../Services/Actions/AdminActions";
 import NumberTable from "./NumberTable";
 export default function AddNumber() {
@@ -33,6 +34,9 @@ export default function AddNumber() {
     (state) => state.AdminReducers.generate_number
   );
   const countertable = useSelector((state) => state.AdminReducers.countertable);
+  
+  const add_counter_success = useSelector((state) => state.AdminReducers.add_counter_NUMBER_success);
+  
   const selectcountertype = useSelector(
     (state) => state.AdminReducers.countertype
   );
@@ -57,6 +61,7 @@ export default function AddNumber() {
         addcounter_number(generate_number?.counterno, selectCounter, typeclient)
       );
       dispatch(action_get_countertable());
+      
     }
   }, [dispatch, generate_number?.counterno, selectCounter, typeclient]);
   useEffect(() => {
@@ -71,7 +76,24 @@ export default function AddNumber() {
       return false;
     };
   }, [selectCounter, typeclient, dispatch]);
+useEffect(()=>{
+  let mounted = true;
+    const addnumbersuccess = async () => {
+      if(mounted){
+        if(add_counter_success.message!==""){
+          dispatch(action_setsnackbar(add_counter_success.message,"success", true));
+          dispatch(getcounters_table());
+        }
+      }
+   
+    };
 
+    mounted && addnumbersuccess();
+
+    return () => {
+      return false;
+    };
+},[add_counter_success.message, dispatch])
   return (
     <Grid container spacing={3}>
       <Grid item xs={6}>
@@ -108,7 +130,7 @@ export default function AddNumber() {
             value={selectCounter}
             onChange={handleChangeCounterSelect}
           >
-            {countertable?.map((counters) => (
+            {countertable?.map((counters,index) => (
               <MenuItem key={counters.countername} value={counters.countername}>
                 {counters.countername}
               </MenuItem>
@@ -127,8 +149,8 @@ export default function AddNumber() {
             value={typeclient}
             onChange={handleChange}
           >
-            {selectcountertype?.map((type) => (
-              <MenuItem value={type.typename}>{type.typename}</MenuItem>
+            {selectcountertype?.map((type, index) => (
+              <MenuItem key={type.typename} value={type.typename}>{type.typename}</MenuItem>
             ))}
           </Select>
         </FormControl>

@@ -132,14 +132,15 @@ export default function CashierUI() {
   const Notify = useCallback(
     async (card) => {
       dispatch(action_get_last_queue(storecounterno, card.countername));
-      if (lastqueue !== null) {
+      if (lastqueue.length>0) {
+         //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
         dispatch(
           action_set_notification(
             true,
             lastqueue[0].queueno,
             card.countername,
             "CASHIER",
-            storecounterno
+            storecounterno.toString()
           )
         );
       }
@@ -149,24 +150,26 @@ export default function CashierUI() {
   const Keep = useCallback(
     async (card) => {
       dispatch(action_keep(card.queueno, card.countername, storecounterno));
+       //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
       dispatch(
         action_set_notification(
           true,
           card.queueno,
           card.countername,
           "CASHIER",
-          storecounterno
+          storecounterno.toString()
         )
       );
-      dispatch(
-        action_notify_signal_mobile(
-          true,
-          card.queueno,
-          card.countername,
-          "CASHIER",
-          storecounterno
-        )
-      );
+       //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
+      // dispatch(
+      //   action_notify_signal_mobile(
+      //     true,
+      //     card.queueno,
+      //     card.countername,
+      //     "CASHIER",
+      //     storecounterno
+      //   )
+      // );
       dispatch(action_get_last_queue(storecounterno, card.countername));
       if (keep) {
         setRerenderBilling((prevBilling) => prevBilling + 1);
@@ -187,16 +190,17 @@ export default function CashierUI() {
           card.queueno,
           card.countername,
           "CASHIER",
-          storecounterno
+          storecounterno.toString()
         )
       );
+      //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
       dispatch(
         action_notify_signal_mobile(
           true,
           card.queueno,
           card.countername,
           "CASHIER",
-          storecounterno
+          storecounterno.toString()
         )
       );
       if (served) {
@@ -213,9 +217,6 @@ export default function CashierUI() {
         if (number !== " +63") {
           sendmessage();
         }
-
-        setRerenderBilling((prevBilling) => prevBilling + 1);
-        setRerenderWaitingList((prevList) => prevList + 1);
       }
     },
     [dispatch, storecounterno, served, phonenumber]
@@ -231,13 +232,12 @@ export default function CashierUI() {
         totalticket
       )
     );
-
+    dispatch(action_waitinglist(storecountername, storecountertype));
+    dispatch(action_generatenext(storecountername, storecountertype));
     if (number_generated_cashier) {
       dispatch(action_waitinglist(storecountername, storecountertype));
       dispatch(action_generatenext(storecountername, storecountertype));
     }
-    dispatch(action_waitinglist(storecountername, storecountertype));
-    dispatch(action_generatenext(storecountername, storecountertype));
   }, [
     dispatch,
     queueno?.queueno,
@@ -259,7 +259,7 @@ export default function CashierUI() {
           <Grid item xs={12}>
             {generate?.map((card, index) => (
               <Paper
-                key={index}
+                key={card.queueno}
                 elevation={3}
                 style={{
                   display: "grid",

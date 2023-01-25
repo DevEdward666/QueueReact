@@ -4,19 +4,36 @@ import annoucement from "../../../Assets/Music/announcement.mp3";
 const NextTone = ({ handlePlay }) => {
   const [audio] = useState(new Audio(annoucement));
   const [playing, setPlaying] = useState(false);
-  console.log(handlePlay());
   const toggle = () => setPlaying(!handlePlay());
 
   useEffect(() => {
-    handlePlay() ? audio.play() : audio.pause();
-  }, [handlePlay]);
+    let mounted =true;
+    const handlePlayer = () => {
+      if(mounted){
+        handlePlay() ? audio.play() :  audio.pause()
+        console.log(handlePlay())
+      }
+    }
+    mounted && handlePlayer();
+    return () => {
+      mounted = false;
+    };
+  }, [audio, handlePlay]);
 
   useEffect(() => {
-    audio.addEventListener("ended", () => handlePlay());
+    let mounted =true;
+    const audioon = () => {
+      if(mounted){
+        audio.addEventListener("ended", () => handlePlay());
+      }
+    }
+    
+    mounted && audioon();
     return () => {
+      mounted = false;
       audio.removeEventListener("ended", () => handlePlay());
     };
-  }, []);
+  }, [audio, handlePlay]);
 
   return [handlePlay(), toggle];
 };
