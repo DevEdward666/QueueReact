@@ -65,7 +65,7 @@ export const action_notify_signal_mobile =
   (open, message, type, from, to) => async (dispatch) => {
     console.log(message,type,from,to)
     var url = `${process.env.REACT_APP_BASE_URL}api/notificationmobile`;
-     fetch(url, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -78,18 +78,17 @@ export const action_notify_signal_mobile =
         type: type,
       }),
     })
-      .then((response) => response.json())
-      .then((res) => {
+    if(response.status === 200){
         dispatch({
           type: NOTIFY_QUEUE_MOBILE,
           payload: { open: open, message: message, type: type },
         });
-      });
+      }
   };
 export const action_set_notification =
   (open, message, type, from, to) => async (dispatch) => {
     var url = `${process.env.REACT_APP_BASE_URL}api/queue/notification`;
-     fetch(url, {
+   const response = await fetch(url, {
       method: "POST",
       withCredentials: true,
       headers: {
@@ -103,13 +102,12 @@ export const action_set_notification =
         type: type,
       }),
     })
-      .then((response) => response.json())
-      .then((res) => {
-        dispatch({
-          type: NOTIFY_QUEUE,
-          payload: { open: open, message: message, type: type },
-        });
+    if(response.status === 200){
+      dispatch({
+        type: NOTIFY_QUEUE,
+        payload: { open: open, message: message, type: type },
       });
+    }
   };
 export const authenticate = (data) => async (dispatch) => {
   var url = `${process.env.REACT_APP_BASE_URL}api/user/login`;

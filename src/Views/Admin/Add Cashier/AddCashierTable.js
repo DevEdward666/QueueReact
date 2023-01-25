@@ -65,7 +65,7 @@ export default function AddCashierTable() {
               <TableRow>
                 {columns?.map((column, index) => (
                   <TableCell
-                    key={index}
+                    key={column.label}
                     align={column.align}
                     style={{ minWidth: column.minWidth }}
                   >
@@ -79,7 +79,7 @@ export default function AddCashierTable() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 ?.map((row, index) => (
                   <TableRow
-                    key={index}
+                    key={row.countername}
                     data-item={row}
                     onClick={() => handleTableData(row)}
                   >

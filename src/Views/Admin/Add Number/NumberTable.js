@@ -77,7 +77,7 @@ export default function NumberTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               ?.map((row, index) => (
                 <TableRow
-                  key={index}
+                  key={row.displayedto}
                   data-item={row}
                   //   onClick={() => handleTableData(row)}
                 >

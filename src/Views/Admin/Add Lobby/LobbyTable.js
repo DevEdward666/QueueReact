@@ -77,7 +77,7 @@ export default function LobbyTable() {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               ?.map((row, index) => (
-                <TableRow key={index} data-item={row}>
+                <TableRow key={row.lobbyno} data-item={row}>
                   <TableCell>{row.lobbyno}</TableCell>
                   <TableCell>{row.location} </TableCell>
                 </TableRow>

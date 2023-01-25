@@ -131,7 +131,7 @@ useEffect(()=>{
             onChange={handleChangeCounterSelect}
           >
             {countertable?.map((counters,index) => (
-              <MenuItem key={index} value={counters.countername}>
+              <MenuItem key={counters.countername} value={counters.countername}>
                 {counters.countername}
               </MenuItem>
             ))}
@@ -150,7 +150,7 @@ useEffect(()=>{
             onChange={handleChange}
           >
             {selectcountertype?.map((type, index) => (
-              <MenuItem key={index} value={type.typename}>{type.typename}</MenuItem>
+              <MenuItem key={type.typename} value={type.typename}>{type.typename}</MenuItem>
             ))}
           </Select>
         </FormControl>

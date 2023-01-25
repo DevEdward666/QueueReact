@@ -10,11 +10,10 @@ import { getuserinfo } from "../../Services/Actions/DefaultActions";
 import NextTone from "./Player/NextTone";
 import UseModal from "../../Plugin/Modal/UseModal";
 import useStyles from "./style";
+import Artyom from 'artyom.js';
 export default function Main() {
   const dispatch = useDispatch();
   const classes = useStyles();
-  var synth = window.speechSynthesis;
-  var voices = synth.getVoices();
   const selectedLobby = useSelector(
     (state) => state.QueueReducers.selectedLobby
   );
@@ -22,6 +21,7 @@ export default function Main() {
   const [play, setPlay] = useState(false);
   const [open, setOpen] = useState(false);
   const [lobbynoexist, setlobbynoexist] = useState("");
+  const [ToSpeak, setToSpeak] = useState("");
   const [notify, setnotify] = useState("");
   const [notifymobile, setnotifymobile] = useState("");
   const hubconnectnotify = useSelector(
@@ -68,8 +68,6 @@ export default function Main() {
           });
         });
       } catch (err) {
-        // alert(err);
-        // console.log(err);
         console.log("Error while establishing connection: " + { err });
       }
     };
@@ -130,41 +128,51 @@ export default function Main() {
   }, [dispatch, pagelist]);
   useEffect(() => {
     let mounted = true;
-
+    let i=0;
+    var assistant = new Artyom();
     const notifys = async () => {
-      console.log(notify)
-      //   if (lastqueue !== [] && lastqueue[0]?.queueno !== undefined) {
-      //     var utterThis = new SpeechSynthesisUtterance(
-      //       `Queue Number ${lastqueue[0]?.queueno}. Please go to ${notify?.type} . Counter ${notify?.to}.`
-      //     );
-      //     setPlay(true);
-      //     utterThis.voice = voices[20];
-
-      //     await synth.speak(utterThis);
-      //   } else
-      if (notify.from === "CASHIER") {
-        var utterThis2 = new SpeechSynthesisUtterance(
-          `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`
-        );
-        setPlay(true);
-        utterThis2.voice = voices[22];
-        await synth.speak(utterThis2);
-      } else if (notifymobile.from === "CASHIER") {
-        var utterThis3 = new SpeechSynthesisUtterance(
-          `Queue Number ${notifymobile?.Notification}. Please go to ${notifymobile?.type} . Counter ${notifymobile?.to}.`
-        );
-        setPlay(true);
-        utterThis3.voice = voices[22];
-        await synth.speak(utterThis3);
+      if(mounted){
+        if (notify.from === "CASHIER") {
+          if(notify?.type !== undefined){
+            setPlay(true);
+            assistant.say( `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
+              lang:"en-US",
+             onStart: function() {
+                 if(assistant.isSpeaking()){
+                  i++;
+                  if(i >=1){
+                    assistant.fatality()
+  
+                  }
+                 }
+             },
+           });
+          }
+        } else if (notifymobile.from === "CASHIER") {
+          if(notify?.type !== undefined){
+          setPlay(true);
+            assistant.say( `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
+              lang:"en-US",
+             onStart: function() {
+                 if(assistant.isSpeaking()){
+                  i++;
+                  if(i >=1){
+                    assistant.fatality()
+                  }
+                 }
+             },
+           });
+          }
+        }
       }
     };
 
     mounted && notifys();
-
     return () => {
-      return false;
+      setPlay(false);
+      mounted = false;
     };
-  }, [notify, synth, voices, notifymobile]);
+  }, [notify,notifymobile]);
   return (
     <div className={classes.root}>
       <NextTone handlePlay={() => play} />

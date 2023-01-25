@@ -92,7 +92,7 @@ const QueueUI = () => {
           <Grid container spacing={12}>
             {counterlist?.data?.map((card,index) => (
               <>
-                <Grid item xs={4} key={index}>
+                <Grid item xs={4} key={card.countername}>
                   <Paper
                     elevation={3}
                     style={{
@@ -162,7 +162,7 @@ const QueueUI = () => {
         <div className={classes.subroot}>
           <Grid container spacing={3}>
             {counterlist?.data?.map((card, index) => (
-              <Grid item xs={4} key={index}>
+              <Grid item xs={4} key={card.countername}>
                 <Paper
                   elevation={3}
                   style={{

@@ -87,7 +87,7 @@ export default function AddCashier() {
               onChange={(e) => handleChange(e)}
             >
               {selectcountertype?.map((type, index) => (
-                <MenuItem key={index} value={type.typename}>
+                <MenuItem key={type.typename} value={type.typename}>
                   {type.typename}
                 </MenuItem>
               ))}

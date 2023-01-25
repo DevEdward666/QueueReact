@@ -118,7 +118,7 @@ export default function AddLobbyDtls() {
                   >
                     {countertable?.map((counters, index) => (
                       <MenuItem
-                        key={index}
+                        key={counters.countername}
                         value={counters.countername}
                       >
                         {counters.countername}

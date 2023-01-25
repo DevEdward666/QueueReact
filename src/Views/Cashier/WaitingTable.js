@@ -58,7 +58,7 @@ export default function WaitingTable() {
             <TableRow>
               {columns?.map((column, index) => (
                 <TableCell
-                  key={index}
+                  key={column.label}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
@@ -71,7 +71,7 @@ export default function WaitingTable() {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               ?.map((row, index) => (
-                <TableRow key={index}>
+                <TableRow key={row.queueno}>
                   <TableCell>{row.queueno}</TableCell>
                   <TableCell>{moment(row.date).format("hh:mm:ss A")}</TableCell>
                 </TableRow>

@@ -88,7 +88,7 @@ export default function UserTable() {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               ?.map((row, index) => (
-                <TableRow key={index}>
+                <TableRow key={row.fullname}>
                   <TableCell style={{ width: "2%" }}>{row.username}</TableCell>
                   <TableCell style={{ width: "30%" }}>
                     {row.fullname}{" "}

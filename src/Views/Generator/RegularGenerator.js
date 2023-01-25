@@ -94,7 +94,7 @@ export default function RegularGenerator() {
       ;
       <Grid container spacing={3}>
         {data?.map((card ,index) => (
-          <Grid item xs={3} key={index}>
+          <Grid item xs={3} key={card.countername}>
             <IconButton
               className={classes.mainGrid}
               onClick={() => generate(card)}

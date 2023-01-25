@@ -217,9 +217,6 @@ export default function CashierUI() {
         if (number !== " +63") {
           sendmessage();
         }
-
-        setRerenderBilling((prevBilling) => prevBilling + 1);
-        setRerenderWaitingList((prevList) => prevList + 1);
       }
     },
     [dispatch, storecounterno, served, phonenumber]
@@ -235,13 +232,12 @@ export default function CashierUI() {
         totalticket
       )
     );
-
+    dispatch(action_waitinglist(storecountername, storecountertype));
+    dispatch(action_generatenext(storecountername, storecountertype));
     if (number_generated_cashier) {
       dispatch(action_waitinglist(storecountername, storecountertype));
       dispatch(action_generatenext(storecountername, storecountertype));
     }
-    dispatch(action_waitinglist(storecountername, storecountertype));
-    dispatch(action_generatenext(storecountername, storecountertype));
   }, [
     dispatch,
     queueno?.queueno,
@@ -263,7 +259,7 @@ export default function CashierUI() {
           <Grid item xs={12}>
             {generate?.map((card, index) => (
               <Paper
-                key={index}
+                key={card.queueno}
                 elevation={3}
                 style={{
                   display: "grid",

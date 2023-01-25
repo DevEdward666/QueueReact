@@ -115,7 +115,7 @@ export default function UsermanageUI() {
                 onChange={handleChangecounter}
               >
                 {countertable?.map((counter, index) => (
-                  <MenuItem key={index} value={counter.countername}>
+                  <MenuItem key={counter.countername} value={counter.countername}>
                     {counter.countername}
                   </MenuItem>
                 ))}
@@ -133,7 +133,7 @@ export default function UsermanageUI() {
                 onChange={handleChangetype}
               >
                 {countertype?.map((type, index) => (
-                  <MenuItem key={index} value={type.typename}>{type.typename}</MenuItem>
+                  <MenuItem key={type.typename} value={type.typename}>{type.typename}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -148,7 +148,7 @@ export default function UsermanageUI() {
                 onChange={handleChangecounternumber}
               >
                 {getcounternumber?.map((counternumber, index) => (
-                  <MenuItem key={index} value={counternumber.counter_name}>
+                  <MenuItem key={counternumber.counter_name} value={counternumber.counter_name}>
                     {counternumber.counter_name}
                   </MenuItem>
                 ))}

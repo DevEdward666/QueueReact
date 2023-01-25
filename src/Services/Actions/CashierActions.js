@@ -166,7 +166,7 @@ const base64topdf = async (base64url, fileName) => {
 export const action_generate_numbers =
   (queueno, countername, countertype, maxnumber, redirectto, totalticket) =>
   async (dispatch) => {
-    var url = `${process.env.REACT_APP_BASE_URL}api/queue/generatenumber`;
+    var url = `${process.env.REACT_APP_BASE_URL}api/queue/generatenumberwithoutpdf`;
     fetch(url, {
       method: "POST",
       withCredentials: true,
@@ -184,15 +184,15 @@ export const action_generate_numbers =
     })
       .then((response) => response.json())
       .then((res) => {
+        console.log(res)
         dispatch({
           type: NUMBER_GENERATED_CASHIER,
           payload: res.success,
         });
-        dispatch({
-          type: SET_BASE64TO_PDF,
-          payload: { base64topdf: res.data, openbackdrop: false },
-        });
-        console.log(res.success);
+        // dispatch({
+        //   type: SET_BASE64TO_PDF,
+        //   payload: { base64topdf: res.data, openbackdrop: false },
+        // });
         // res.data.map((i)=>{
         //   return printJS({ printable:i, type: 'pdf', base64: true,
         //    onLoadingEnd:()=> dispatch({
@@ -372,7 +372,6 @@ export const get_client_message = () => async (dispatch) => {
   })
     .then((response) => response.json())
     .then((res) => {
-      console.log(res);
       dispatch({
         type: GET_CLIENT_MESSAGE,
         payload: res?.data?.message,

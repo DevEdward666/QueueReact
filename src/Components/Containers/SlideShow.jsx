@@ -29,7 +29,7 @@ export default memo(() => {
       {images.length > 0 &&
         images.map((value, index) => (
           <StyledImageBackground
-            key={index}
+            key={value}
             style={{ gridArea: "login" }}
             imgSrc={value}
             className={`${currentBackground === index ? "active" : ""}`}

@@ -8,7 +8,7 @@ const CustomList = ({list}) => {
         <List className={classes.rootList}>
         {list?.map((item, index) => (
           <>
-            <ListItem alignItems="flex-start" key={index}>
+            <ListItem alignItems="flex-start" key={item.title}>
            
               <ListItemText
                 secondary={
