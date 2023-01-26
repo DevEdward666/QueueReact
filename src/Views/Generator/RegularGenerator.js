@@ -103,14 +103,14 @@ export default function RegularGenerator() {
                 elevation={3}
                 style={{
                   display: "grid",
-                  gridGap: "1em",
+                  gridGap: "2em",
                   padding: "1em",
                 }}
                 className={classes.paper}
               >
                 <div
                   style={{
-                    fontSize: 30,
+                    fontSize: 14,
                     fontWeight: 600,
                   }}
                 >

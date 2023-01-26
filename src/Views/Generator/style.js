@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(1),
     textAlign: "center",
-    margin: 10,
+    margin: 1,
     // color: theme.palette.text.secondary,
     color: "rgba(0,0,0,.65)",
     textTransform: "uppercase",
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mainGrid: {
     width: "100%",
-    padding: 20,
+    padding: 5,
   },
   snackbarroot: {
     width: "100%",

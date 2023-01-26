@@ -15,7 +15,7 @@ const auth = window.localStorage.getItem("queue_token");
 const bearer_token = auth;
 const bearer = "Bearer " + bearer_token;
 
-export const action_getCounterList = (Selectedlocation) => async (dispatch) => {
+export const action_getCounterList = (Selectedlocation,SelectedlocationName) => async (dispatch) => {
   var url = `${process.env.REACT_APP_BASE_URL}api/queue/getcounterlist`;
   const response = await fetch(url, {
     method: "POST",
@@ -26,6 +26,7 @@ export const action_getCounterList = (Selectedlocation) => async (dispatch) => {
     },
     body: JSON.stringify({
       lobbyno: Selectedlocation,
+      lobbyName:SelectedlocationName
     }),
   });
   const jsonData = await response.json();

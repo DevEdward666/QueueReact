@@ -79,7 +79,7 @@ export default function Main() {
 
     const getallnumbers = async () => {
       if (selectedLobby?.selected?.lobbyinfo) {
-        dispatch(action_getCounterList(selectedLobby?.selected?.lobbyinfo[0]));
+        dispatch(action_getCounterList(selectedLobby?.selected?.lobbyinfo[0],selectedLobby?.selected?.lobbyinfo[1]));
 
         // setlobbynoexist(counterlist.success);
         if (selectedLobby?.selected?.lobbyinfo[1] === "ALL") {
