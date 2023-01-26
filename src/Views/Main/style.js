@@ -3,10 +3,8 @@ import styles from "styled-components";
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
-    marginTop: 150,
-    width: "90%",
-
-    marginLeft: 100,
+    marginTop: 110,
+    width: "100%",
   },
   subroot: {
     flex: 1,
