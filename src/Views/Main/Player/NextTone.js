@@ -10,8 +10,13 @@ const NextTone = ({ handlePlay }) => {
     let mounted =true;
     const handlePlayer = () => {
       if(mounted){
-        handlePlay() ? audio.play() :  audio.pause()
-        console.log(handlePlay())
+        if(handlePlay()){
+          audio.play();
+          setPlaying(false);
+        } else{
+          audio.pause();
+          setPlaying(false);
+        }
       }
     }
     mounted && handlePlayer();
@@ -24,14 +29,13 @@ const NextTone = ({ handlePlay }) => {
     let mounted =true;
     const audioon = () => {
       if(mounted){
-        audio.addEventListener("ended", () => handlePlay());
+        audio.addEventListener("ended", () => handlePlay);
       }
     }
-    
     mounted && audioon();
     return () => {
       mounted = false;
-      audio.removeEventListener("ended", () => handlePlay());
+      audio.removeEventListener("ended", () => handlePlay);
     };
   }, [audio, handlePlay]);
 

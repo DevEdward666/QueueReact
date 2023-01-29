@@ -11,12 +11,12 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   actions_sendmessage,
-  action_generatenext,
+  action_reception_generatenext,
   action_generate_numbers,
-  action_get_last_queue,
+  action_get_reception_last_queue,
   action_keep,
   action_served,
-  action_waitinglist,
+  action_reception_waitinglist,
   notifytoserve,
 } from "../../Services/Actions/CashierActions";
 import {
@@ -24,10 +24,9 @@ import {
   action_set_notification,
 } from "../../Services/Actions/DefaultActions";
 import { getserved } from "../../Services/Actions/QueueActions";
-import SetUpCounter from "./SetUpCounter";
 import useStyles from "./styles";
-import WaitingTable from "./WaitingTable";
-export default function CashierUI() {
+import ReceptionWaitingTable from "./ReceptionWaitingTable";
+export default function ReceptionCashierUI() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [notnull, setnotnull] = useState(true);
@@ -46,7 +45,7 @@ export default function CashierUI() {
   const queueno = useSelector(
     (state) => state.CashierReducers.generatedqueuenumber
   );
-  const generate = useSelector((state) => state.CashierReducers.generatenext);
+  const reception_generate = useSelector((state) => state.CashierReducers.reception_generatenext);
   const served = useSelector((state) => state.CashierReducers.served);
   const keep = useSelector((state) => state.CashierReducers.keep);
 
@@ -96,12 +95,12 @@ export default function CashierUI() {
       if (mounted) {
         if (storecountername !== null) {
           if (number_generated_cashier) {
-            dispatch(action_waitinglist(storecountername, storecountertype));
-            dispatch(action_generatenext(storecountername, storecountertype));
+            dispatch(action_reception_waitinglist());
+            dispatch(action_reception_generatenext());
             setvisible(false);
           }
-          dispatch(action_waitinglist(storecountername, storecountertype));
-          dispatch(action_generatenext(storecountername, storecountertype));
+          dispatch(action_reception_waitinglist());
+          dispatch(action_reception_generatenext());
           setvisible(false);
         } else {
           setvisible(true);
@@ -128,7 +127,7 @@ export default function CashierUI() {
   }, [storecountername]);
   const Notify = useCallback(
     async (card) => {
-      dispatch(action_get_last_queue(storecounterno, card.countername));
+      dispatch(action_get_reception_last_queue());
       if (lastqueue.length>0) {
          //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
         dispatch(
@@ -167,20 +166,21 @@ export default function CashierUI() {
       //     storecounterno
       //   )
       // );
-      dispatch(action_get_last_queue(storecounterno, card.countername));
+      dispatch(action_get_reception_last_queue());
       if (keep) {
         setRerenderBilling((prevBilling) => prevBilling + 1);
         setRerenderWaitingList((prevList) => prevList + 1);
       }
     },
-    [dispatch, keep, storecounterno]
+    [dispatch, keep]
   );
   const Served = useCallback(
     async (card) => {
+      if(card.queueno !== null || card.countername !== null || storecounterno !==null)
       dispatch(action_served(card.queueno, card.countername, storecounterno));
       dispatch(notifytoserve(card.queueno, card.countername, storecounterno));
       dispatch(getserved(card.queueno, card.countername, storecounterno));
-      dispatch(action_get_last_queue(storecounterno, card.countername));
+      dispatch(action_get_reception_last_queue());
       dispatch(
         action_set_notification(
           true,
@@ -229,34 +229,31 @@ export default function CashierUI() {
         totalticket
       )
     );
-    dispatch(action_waitinglist(storecountername, storecountertype));
-    dispatch(action_generatenext(storecountername, storecountertype));
     if (number_generated_cashier) {
-      dispatch(action_waitinglist(storecountername, storecountertype));
-      dispatch(action_generatenext(storecountername, storecountertype));
+      dispatch(action_reception_waitinglist());
+      dispatch(action_reception_generatenext());
     }
   }, [
     dispatch,
     queueno?.queueno,
-    storecountername,
     typeclient,
     maxnumber?.data.Maxnumber,
     data?.redirectto,
     totalticket,
     number_generated_cashier,
-    storecountertype,
   ]);
   const handletextChange = (event) => {
     settotalticket(event.target.value);
   };
   return (
-    <Grid container spacing={8} justify="center">
-      <Grid item xs={5}>
-        <Grid item xs={12} style={{ marginBottom: 20 }}>
-          <Grid item xs={12}>
-            {generate?.map((card, index) => (
+    <Container maxWidth="lg">
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
+        <Grid item xs={12}>
+          <Grid item xs={8}>
+            {reception_generate?.map((card, index) => (
               <Paper
-                key={card.queueno}
+                key={index}
                 elevation={3}
                 style={{
                   display: "grid",
@@ -330,7 +327,7 @@ export default function CashierUI() {
             ))}
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Grid item xs={12}>
             {visible ? null : (
               <Paper
@@ -388,18 +385,19 @@ export default function CashierUI() {
               </Paper>
             )}
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
+        </Grid> */}
+        {/* <Grid item xs={12}>
           <Grid item xs={12}>
             {visible ? <SetUpCounter /> : null}
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
-      <Grid item xs={7}>
+      <Grid item xs={6}>
         <Grid item xs={12}>
-          <WaitingTable />
+          <ReceptionWaitingTable />
         </Grid>
       </Grid>
     </Grid>
+    </Container>
   );
 }

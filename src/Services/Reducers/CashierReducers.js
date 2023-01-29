@@ -6,6 +6,7 @@ import {
   SET_MAXNUMBER,
   GENERATED_QUEUE_NUMBER,
   GENERATED_NEXT_QUEUE_NUMBER,
+  RECEPTION_GENERATED_NEXT_QUEUE_NUMBER,
   SET_SERVED,
   SET_KEEP,
   GET_CLIENT_MESSAGE,
@@ -25,6 +26,7 @@ const cashier = {
   maxnumber: { data: [], visible: false },
   generatedqueuenumber: [],
   generatenext: [],
+  reception_generatenext: [],
   served: false,
   keep: false,
   message: "",
@@ -60,6 +62,8 @@ const CashierReducers = (data_state = cashier, actions) => {
       return { ...data_state, keep: actions.payload };
     case GENERATED_NEXT_QUEUE_NUMBER:
       return { ...data_state, generatenext: actions.payload };
+    case RECEPTION_GENERATED_NEXT_QUEUE_NUMBER:
+      return { ...data_state, reception_generatenext: actions.payload };
     case GENERATED_QUEUE_NUMBER:
       return { ...data_state, generatedqueuenumber: actions.payload };
     case SET_COUNTERS:

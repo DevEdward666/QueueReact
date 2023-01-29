@@ -1,4 +1,5 @@
 import {
+  RECEPTION_GENERATED_NEXT_QUEUE_NUMBER,
   GENERATED_NEXT_QUEUE_NUMBER,
   GENERATED_QUEUE_NUMBER,
   GET_CLIENT_MESSAGE,
@@ -233,7 +234,26 @@ export const action_waitinglist =
       payload: jsonData.data,
     });
   };
+  export const action_reception_waitinglist =
+  () => async (dispatch) => {
+    var url = `${process.env.REACT_APP_BASE_URL}api/queue/reception_waitinglist`;
 
+    const response = await fetch(url, {
+      method: "POST",
+      withCredentials: true,
+      headers: {
+        Authorization: bearer,
+        "Content-Type": "application/json",
+      }
+    });
+
+    const tempRows = [];
+    const jsonData = await response.json();
+    dispatch({
+      type: SET_WAITINGLIST,
+      payload: jsonData.data,
+    });
+  };
 export const action_getmaxnumber = (storecountername) => async (dispatch) => {
   var url = `${process.env.REACT_APP_BASE_URL}api/queue/getmaxnumber`;
 
@@ -296,6 +316,25 @@ export const action_generatenext =
     const jsonData = await response.json();
     dispatch({
       type: GENERATED_NEXT_QUEUE_NUMBER,
+      payload: jsonData.data,
+    });
+  };
+export const action_reception_generatenext = () => async (dispatch) => {
+    var url = `${process.env.REACT_APP_BASE_URL}api/queue/reception_getqueuno`;
+    const response = await fetch(url, {
+      method: "POST",
+      withCredentials: true,
+      headers: {
+        Authorization: bearer,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const jsonData = await response.json();
+    
+    console.log(response)
+    dispatch({
+      type: RECEPTION_GENERATED_NEXT_QUEUE_NUMBER,
       payload: jsonData.data,
     });
   };
@@ -482,6 +521,25 @@ export const action_get_last_queue =
     });
     console.log(jsonData.data);
   };
+  
+export const action_get_reception_last_queue = () => async (dispatch) => {
+  var url = `${process.env.REACT_APP_BASE_URL}api/queue/reception_lastqueueno`;
+
+  const response = await fetch(url, {
+    method: "POST",
+    withCredentials: true,
+    headers: {
+      Authorization: bearer,
+      "Content-Type": "application/json",
+    },
+  });
+  const jsonData = await response.json();
+  dispatch({
+    type: GET_LAST_QUEUE,
+    payload: jsonData.data,
+  });
+  console.log(jsonData.data);
+};
 export const action_getUserinfo = (username) => async (dispatch) => {
   var url = `${process.env.REACT_APP_BASE_URL}api/user/getuserinfo`;
 

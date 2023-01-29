@@ -12,8 +12,9 @@ import { useHistory } from "react-router-dom";
 
 import admin from "../../Assets/Icon/admin.jpg";
 import cashier from "../../Assets/Icon/csahier.png";
+import reception from "../../Assets/Icon/receptions.png";
 import display from "../../Assets/Icon/display.jpg";
-import generator from "../../Assets/Icon/generator.png";
+import generator from "../../Assets/Icon/queue_generator.png";
 import logout from "../../Assets/Icon/logout.jpg";
 import { useDispatch } from "react-redux";
 import useStyles from "./style";
@@ -32,7 +33,7 @@ const Lobby = ({ location, handleSetLocation = [] }) => {
     (e) => {
       dispatch(selectedpage(false));
       history.push(`${e}`);
-    },
+    }, 20,
     [dispatch, history]
   );
   return (
@@ -52,14 +53,14 @@ const Lobby = ({ location, handleSetLocation = [] }) => {
             >
               <div
                 style={{
-                  fontSize: 20,
+                  fontSize: 14,
                   fontWeight: 500,
                 }}
               >
                 <img
                   alt=""
                   style={{ objectFit: "contain" }}
-                  height="200"
+                  height="150"
                   width="100%"
                   src={display}
                 />
@@ -80,14 +81,14 @@ const Lobby = ({ location, handleSetLocation = [] }) => {
             >
               <div
                 style={{
-                  fontSize: 20,
+                  fontSize: 14,
                   fontWeight: 500,
                 }}
               >
                 <img
                   alt=""
                   style={{ objectFit: "contain" }}
-                  height="200"
+                  height="150"
                   width="100%"
                   src={generator}
                 />
@@ -108,14 +109,14 @@ const Lobby = ({ location, handleSetLocation = [] }) => {
             >
               <div
                 style={{
-                  fontSize: 20,
+                  fontSize: 14,
                   fontWeight: 500,
                 }}
               >
                 <img
                   alt=""
                   style={{ objectFit: "contain" }}
-                  height="200"
+                  height="150"
                   width="100%"
                   src={cashier}
                 />
@@ -132,18 +133,46 @@ const Lobby = ({ location, handleSetLocation = [] }) => {
                 padding: "1em",
               }}
               className={classes.paper}
-              onClick={() => handleRoute("/MainAdmin")}
+              onClick={() => handleRoute("/ReceptionCashier")}
             >
               <div
                 style={{
-                  fontSize: 20,
+                  fontSize: 14,
                   fontWeight: 500,
                 }}
               >
                 <img
                   alt=""
                   style={{ objectFit: "contain" }}
-                  height="200"
+                  height="150"
+                  width="100%"
+                  src={reception}
+                />
+                Reception
+              </div>
+            </Paper>
+          </Grid>
+          <Grid item xs={3}>
+            <Paper
+              elevation={3}
+              style={{
+                display: "grid",
+                gridGap: "1em",
+                padding: "1em",
+              }}
+              className={classes.paper}
+              onClick={() => handleRoute("/MainAdmin")}
+            >
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                }}
+              >
+                <img
+                  alt=""
+                  style={{ objectFit: "contain" }}
+                  height="150"
                   width="100%"
                   src={admin}
                 />

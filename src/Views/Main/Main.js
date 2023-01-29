@@ -132,15 +132,15 @@ export default function Main() {
     var assistant = new Artyom();
     const notifys = async () => {
       if(mounted){
-        if (notify.from === "CASHIER") {
-          if(notify?.type !== undefined){
+        if (notify.from === "CASHIER" &&  notify?.type !== "info") {
+          if(notify?.type !== undefined ){
             setPlay(true);
             assistant.say( `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
               lang:"en-US",
              onStart: function() {
                  if(assistant.isSpeaking()){
                   i++;
-                  if(i >=1){
+                  if(i>1){
                     assistant.fatality()
   
                   }
@@ -148,7 +148,7 @@ export default function Main() {
              },
            });
           }
-        } else if (notifymobile.from === "CASHIER") {
+        } else if (notifymobile.from === "CASHIER" &&  notify?.type !== "info") {
           if(notify?.type !== undefined){
           setPlay(true);
             assistant.say( `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
@@ -156,7 +156,7 @@ export default function Main() {
              onStart: function() {
                  if(assistant.isSpeaking()){
                   i++;
-                  if(i >=1){
+                  if(i>1){
                     assistant.fatality()
                   }
                  }
@@ -169,6 +169,7 @@ export default function Main() {
 
     mounted && notifys();
     return () => {
+      assistant.fatality();
       setPlay(false);
       mounted = false;
     };
