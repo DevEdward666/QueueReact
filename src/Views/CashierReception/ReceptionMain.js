@@ -79,7 +79,7 @@ export default function ReceptionMain() {
     };
   }, [dispatch]);
   return (
-    <div style={{ marginTop: 20 }}>
+    <div style={{ marginTop: 100 }}>
       <Container maxWidth="sm">
         <ReceptionCashierUI />
       </Container>

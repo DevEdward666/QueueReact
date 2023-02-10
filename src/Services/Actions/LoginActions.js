@@ -16,7 +16,7 @@ export const action_Login_user = (username, password) => async () => {
       if (res.success) {
         window.localStorage.setItem("queue_token", res.data.access_token);
         window.localStorage.setItem("refreshtoken", res.data.refresh_token);
-        window.location.href = "/";
+        window.location.href = "/Cashier";
       } else {
         alert("Wrong Username/Password");
       }

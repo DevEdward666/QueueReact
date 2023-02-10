@@ -6,7 +6,7 @@ import Senior from "./SeniorGenerator";
 export default function MainGenerator() {
   const classes = useStyles();
   return (
-    <div>
+    <div style={{ marginTop: 100 }}>
       <Grid>
         <Grid item xs={12}>
           <Regular />
