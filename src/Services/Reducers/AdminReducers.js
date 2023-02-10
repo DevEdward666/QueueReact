@@ -13,6 +13,7 @@ import {
   SET_TABLE_CLICK,
   USERLIST,
   TABLE_USERLIST,
+  UPDATE_CASHIER
 } from "../Types/AdminTypes";
 const admin = {
   countertable: [],
@@ -29,6 +30,7 @@ const admin = {
   setbtntext: "Add",
   userlists: [],
   userlistselect: [],
+  update_cashier:{cashierid:0,cashierName: "", counterType:""}
 };
 
 const AdminReducers = (data_state = admin, actions) => {
@@ -61,6 +63,8 @@ const AdminReducers = (data_state = admin, actions) => {
       return { ...data_state, countertype: actions.payload };
     case SET_SUCCESS:
       return { ...data_state, add_counter_success: actions.payload };
+    case UPDATE_CASHIER:
+      return { ...data_state, update_cashier: actions.payload };
 
     default:
       return data_state;

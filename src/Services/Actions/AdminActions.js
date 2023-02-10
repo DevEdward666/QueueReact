@@ -13,6 +13,7 @@ import {
   SET_TABLE_CLICK,
   USERLIST,
   TABLE_USERLIST,
+  UPDATE_CASHIER
 } from "../Types/AdminTypes";
 
 const auth = window.localStorage.getItem("queue_token");
@@ -30,6 +31,7 @@ export const action_get_countertable = () => async (dispatch) => {
     },
   });
   const jsonData = await response.json();
+  console.log(jsonData);
   dispatch({
     type: GET_COUNTER_TABLE,
     payload: jsonData.data,
@@ -96,7 +98,30 @@ export const action_add_counter =
         });
       });
   };
-
+  export const action_update_counter =
+  (counterid,countername, typeclient) => async (disaptch) => {
+    var url = `${process.env.REACT_APP_BASE_URL}api/queue/getcounterexistandupdate`;
+    fetch(url, {
+      method: "POST",
+      withCredentials: true,
+      headers: {
+        Authorization: bearer,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        counterid:counterid,
+        countername: countername,
+        countertype: typeclient,
+      }),
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        disaptch({
+          type: SET_SUCCESS,
+          payload: { success: res.success, message: res.message },
+        });
+      });
+  };
 export const getcounters_table = () => async (dispatch) => {
   var url = `${process.env.REACT_APP_BASE_URL}api/queue/getcounters_table`;
 
@@ -286,3 +311,9 @@ export const action_tableclick = (btntext) => async (dispatch) => {
     payload: btntext,
   });
 };
+export const set_update_cashier =(cashier_id,cashier_name,cashier_type) =>async (dispatch) => {
+  dispatch({
+    type: UPDATE_CASHIER,
+    payload: { cashier_id:cashier_id,cashier_name: cashier_name, cashier_type: cashier_type },
+  });
+}

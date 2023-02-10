@@ -11,7 +11,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import useStyle from "./style";
-import { action_tableclick } from "../../../Services/Actions/AdminActions";
+import { action_tableclick,set_update_cashier } from "../../../Services/Actions/AdminActions";
 export default function AddCashierTable() {
   const classes = useStyle();
   const dispatch = useDispatch();
@@ -33,12 +33,12 @@ export default function AddCashierTable() {
   useEffect(() => {
     let mounted = true;
     const counterlist = async () => {
-      function createData(countername, countertype) {
-        return { countername, countertype };
+      function createData(counterid,countername, countertype) {
+        return {counterid, countername, countertype };
       }
       const tempRows = [];
       countertable?.map((data) =>
-        tempRows.push(createData(data.countername, data.countertype))
+        tempRows.push(createData(data.counterid,data.countername, data.countertype))
       );
       setRows(tempRows);
     };
@@ -48,10 +48,11 @@ export default function AddCashierTable() {
       return false;
     };
   }, [countertable]);
-  const handleTableData = (event) => {
-    console.log(event);
-    // dispatch(action_tableclick("Update"));
-  };
+  const handleTableData = useCallback((value) => {
+    dispatch(set_update_cashier(value.counterid,value.countername,value.countertype));
+    console.log(value);
+    dispatch(action_tableclick("Update"));
+  },[dispatch]);
   return (
     <Grid item xs={12}>
       <Paper
