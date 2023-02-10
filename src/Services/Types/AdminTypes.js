@@ -13,3 +13,5 @@ export const SET_SNACKBAR = "SET_SNACKBAR";
 export const SET_TABLE_CLICK = "SET_TABLE_CLICK";
 export const USERLIST = "USERLIST";
 export const TABLE_USERLIST = "TABLE_USERLIST";
+
+export const UPDATE_CASHIER = "UPDATE_CASHIER";

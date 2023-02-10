@@ -16,6 +16,7 @@ import Select from "@material-ui/core/Select";
 import {
   action_setsnackbar,
   action_add_counter,
+  action_update_counter,
   action_tableclick,
   action_get_countertable
 } from "../../../Services/Actions/AdminActions";
@@ -27,6 +28,9 @@ export default function AddCashier() {
 
   const selectcountertype = useSelector(
     (state) => state.AdminReducers.countertype
+  );
+  const getupdatecashier = useSelector(
+    (state) => state.AdminReducers.update_cashier
   );
   const setbtntext = useSelector((state) => state.AdminReducers.setbtntext);
   const rescountertable = useSelector((state) => state.AdminReducers.add_counter_success);
@@ -43,9 +47,21 @@ export default function AddCashier() {
     } else if (countername === "") {
       dispatch(action_setsnackbar("Please Fill Counter Name", "warning", true));
     } else {
-      dispatch(action_add_counter(countername, typeclient));
+      if(setbtntext === 'Add') {
+        dispatch(action_add_counter(countername, typeclient));
+      } else {
+        dispatch(action_update_counter(getupdatecashier?.cashier_id,countername, typeclient));
+      
+      }
+      reset();
     }
-  }, [countername, dispatch, typeclient]);
+  }, [countername, dispatch, typeclient,getupdatecashier?.cashier_id]);
+
+  const reset=()=>{
+    setcountername("");
+    settypeclient("");
+    dispatch(action_tableclick("Add"));
+  }
   useEffect(()=>{
     let mounted =true;
     const addcashiersuccess = async () => {
@@ -55,9 +71,23 @@ export default function AddCashier() {
   }
     mounted && addcashiersuccess();
     return () => {
-      return false;
+      mounted = false;
     };
   },[dispatch,rescountertable])
+  useEffect(()=>{
+    let mounted =true;
+    const updatecashier = async () => {
+    if(mounted){ 
+      console.log(getupdatecashier)
+     setcountername(getupdatecashier?.cashier_name);
+     settypeclient(getupdatecashier?.cashier_type);
+    }
+  }
+    mounted && updatecashier();
+    return () => {
+      mounted = false;
+    };
+  },[getupdatecashier])
   const handleCancel = useCallback(() => {
     dispatch(action_tableclick("Add"));
   }, [dispatch,]);
@@ -73,6 +103,7 @@ export default function AddCashier() {
               id="standard-basic"
               label="Counter Name"
               fullWidth={true}
+              value={countername}
               onChange={handletextChange}
             />
           </form>
@@ -102,7 +133,7 @@ export default function AddCashier() {
           >
             <Button
               onClick={handleSubmit}
-              style={{ borderRadius: 25, width: 150 }}
+              style={{ borderRadius: 15, width: 150, margin:10 }}
               className="submit-btn"
               variant="contained"
               size="large"
@@ -110,17 +141,32 @@ export default function AddCashier() {
             >
               {setbtntext}
             </Button>
+            {setbtntext=== "Update"? 
 
+               <Button
+               onClick={reset}
+               style={{ borderRadius: 15, width: 150,margin:10 }}
+               className="submit-btn"
+               variant="contained"
+               size="large"
+               color="primary"
+             >
+               Reset
+             </Button>
+            :
             <Button
               onClick={handleCancel}
-              style={{ borderRadius: 25, width: 150 }}
+              style={{ borderRadius: 15, width: 150,margin:10 }}
               className="submit-btn"
               variant="contained"
               size="large"
-              color="secondary"
+              color="primary"
             >
               Cancel
             </Button>
+            
+          }
+            
           </Grid>
         </Grid>
       </Grid>
