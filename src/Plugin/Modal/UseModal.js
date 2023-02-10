@@ -48,7 +48,7 @@ const UseModal = ({ handleClose, open }) => {
   const currenturl = window.location.pathname;
 
   useEffect(() => {
-    if (currenturl === "/") {
+    if (currenturl === "/Display") {
       setishide(false);
       setfullscreen("fullScreen");
     } else {

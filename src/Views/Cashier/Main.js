@@ -76,7 +76,7 @@ export default function Main() {
     };
   }, [dispatch]);
   return (
-    <div style={{ marginTop: 20 }}>
+    <div style={{ marginTop: 100 }}>
       <Container>
         <CashierUI />
       </Container>

@@ -246,6 +246,7 @@ export default function ReceptionCashierUI() {
     settotalticket(event.target.value);
   };
   return (
+    <div style={{ marginTop: 100 }}>
     <Container maxWidth="lg">
     <Grid container spacing={2}>
       <Grid item xs={6}>
@@ -399,5 +400,6 @@ export default function ReceptionCashierUI() {
       </Grid>
     </Grid>
     </Container>
+    </div>
   );
 }

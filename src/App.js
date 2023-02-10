@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch,Redirect } from "react-router-dom";
 import Navigation from "./Views/Navigation/Navigation";
 import store from "./Services/Store";
 import { Provider } from "react-redux";
@@ -29,7 +29,8 @@ function App() {
   const DefaultContainer = () => (
     <Provider store={store}>
       <Navigation />
-      <Route path="/" component={Main} />
+      <Route exact path="/"> <Redirect push to="/Cashier"/></Route>
+      <Route path="/Display" component={Main} />
       <Route path="/Cashier" component={Cashier} />
       <Route path="/ReceptionCashier" component={ReceptionCashierUI}/>
       <Route path="/AddCashier" component={AddCashier} />

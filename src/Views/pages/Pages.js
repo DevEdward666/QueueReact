@@ -49,7 +49,7 @@ const Lobby = ({ location, handleSetLocation = [] }) => {
                 padding: "1em",
               }}
               className={classes.paper}
-              onClick={() => handleRoute("/")}
+              onClick={() => handleRoute("/Display")}
             >
               <div
                 style={{
