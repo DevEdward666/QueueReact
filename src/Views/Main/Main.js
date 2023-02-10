@@ -8,6 +8,7 @@ import {
 } from "../../Services/Actions/QueueActions";
 import { getuserinfo } from "../../Services/Actions/DefaultActions";
 import NextTone from "./Player/NextTone";
+import annoucement from "../../Assets/Music/announcement.mp3";
 import UseModal from "../../Plugin/Modal/UseModal";
 import useStyles from "./style";
 import Artyom from 'artyom.js';
@@ -17,7 +18,7 @@ export default function Main() {
   const selectedLobby = useSelector(
     (state) => state.QueueReducers.selectedLobby
   );
-
+  const [audio] = useState(new Audio(annoucement));
   const [play, setPlay] = useState(false);
   const [open, setOpen] = useState(false);
   const [lobbynoexist, setlobbynoexist] = useState("");
@@ -134,49 +135,50 @@ export default function Main() {
       if(mounted){
         if (notify.from === "CASHIER" &&  notify?.type !== "info") {
           if(notify?.type !== undefined ){
-            setPlay(true);
             assistant.say( `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
               lang:"en-US",
              onStart: function() {
                  if(assistant.isSpeaking()){
+                  audio.play();
                   i++;
                   if(i>1){
                     assistant.fatality()
-  
+                    audio.pause();
                   }
                  }
              },
            });
           }
-        } else if (notifymobile.from === "CASHIER" &&  notify?.type !== "info") {
-          if(notify?.type !== undefined){
-          setPlay(true);
-            assistant.say( `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
-              lang:"en-US",
-             onStart: function() {
-                 if(assistant.isSpeaking()){
-                  i++;
-                  if(i>1){
-                    assistant.fatality()
-                  }
-                 }
-             },
-           });
-          }
-        }
+        } 
+        // else if (notifymobile.from === "CASHIER" &&  notify?.type !== "info") {
+        //   if(notify?.type !== undefined){
+        //   setPlay(true);
+        //     assistant.say( `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
+        //       lang:"en-US",
+        //      onStart: function() {
+        //          if(assistant.isSpeaking()){
+        //           i++;
+        //           if(i>1){
+        //             assistant.fatality()
+        //           }
+        //          }
+        //      },
+        //    });
+        //   }
+        // }
       }
     };
 
     mounted && notifys();
     return () => {
       assistant.fatality();
-      setPlay(false);
+      audio.pause();
       mounted = false;
     };
-  }, [notify,notifymobile]);
+  }, [notify]);
   return (
     <div className={classes.root}>
-      <NextTone handlePlay={() => play} />
+      {/* <NextTone handlePlay={() => play} /> */}
       <UseModal open={open} handleClose={() => setOpen(false)} />
       <QueueUI />
     </div>
