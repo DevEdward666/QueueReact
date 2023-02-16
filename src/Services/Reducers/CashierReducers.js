@@ -3,6 +3,7 @@ import {
   SET_SELECTED_COUNTERS,
   GENERATE_NUMBERS,
   SET_WAITINGLIST,
+  SET_RECEPTION_WAITINGLIST,
   SET_MAXNUMBER,
   GENERATED_QUEUE_NUMBER,
   GENERATED_NEXT_QUEUE_NUMBER,
@@ -23,6 +24,7 @@ const cashier = {
   counters: [],
   selectedcounter: [],
   waitingList: [],
+  receptionwaitingList: [],
   maxnumber: { data: [], visible: false },
   generatedqueuenumber: [],
   generatenext: [],
@@ -72,6 +74,8 @@ const CashierReducers = (data_state = cashier, actions) => {
       return { ...data_state, selectedcounter: actions.payload };
     case SET_WAITINGLIST:
       return { ...data_state, waitingList: actions.payload };
+    case SET_RECEPTION_WAITINGLIST:
+      return { ...data_state, receptionwaitingList: actions.payload };
     case SET_MAXNUMBER:
       return { ...data_state, maxnumber: actions.payload };
     default:

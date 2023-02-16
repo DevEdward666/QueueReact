@@ -53,11 +53,7 @@ export default function LobbyTable() {
     setPage(newPage);
   };
   return (
-    <Paper
-      className={classes.root}
-      elevation={3}
-      style={{ display: "grid", gridGap: "1em", padding: "1em" }}
-    >
+<div>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -94,6 +90,6 @@ export default function LobbyTable() {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Paper>
+    </div>
   );
 }

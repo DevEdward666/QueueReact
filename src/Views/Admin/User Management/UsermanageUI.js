@@ -24,6 +24,9 @@ import {
   insert_user_queue,
   action_userlists,
   action_userlists_select,
+  action_getcounternumber,
+  action_setsnackbar,
+  action_get_countertable
 } from "../../../Services/Actions/AdminActions";
 import Select2 from "react-select";
 import UserTable from "./UserTable";
@@ -43,16 +46,19 @@ export default function UsermanageUI() {
   const [counter, setcounter] = useState("");
   const [type, settype] = useState([]);
   const [counternumber, setcounternumber] = useState("");
-  const emp_options = userlistselect.map((item) => [
-    { value: item?.empname, label: item?.empname },
-  ]);
+  console.log(countertable)
+  // const emp_options = userlistselect.map((item) => [
+  //   { value: item?.empname, label: item?.empname },
+  // ]);
 
-  const handleChangeusers = (event) => {
+  const handleChangeusers = useCallback((event) => {
     setusers(event.target.value);
-  };
-  const handleChangecounter = (event) => {
+    dispatch(action_get_countertable());
+  },[dispatch]);
+  const handleChangecounter = useCallback((event) => {
     setcounter(event.target.value);
-  };
+    dispatch(action_getcounternumber(event.target.value));
+  },[dispatch]);
   const handleChangecounternumber = (event) => {
     setcounternumber(event.target.value);
   };
@@ -73,11 +79,20 @@ export default function UsermanageUI() {
     };
   }, [dispatch]);
   const handleSubmit = useCallback(() => {
-    dispatch(insert_user_queue(users, counternumber, counter, type));
+    if (users === "") {
+      dispatch(action_setsnackbar("Please Fill User ", "warning", true));
+    } else if (counter === "") {
+      dispatch(action_setsnackbar("Please Fill Counter ", "warning", true));
+    }  else if (counternumber === "") {
+      dispatch(action_setsnackbar("Please Fill Counter Number", "warning", true));
+    }else {
+
+      dispatch(insert_user_queue(users, counternumber, counter, type));
+    }
   }, [dispatch, users, counternumber, counter, type]);
   return (
     <Grid container spacing={3}>
-      <Grid item xs={4}>
+      <Grid item xs={5}>
         <Paper
           elevation={3}
           style={{ display: "grid", gridGap: "1em", padding: "1em" }}
@@ -94,14 +109,27 @@ export default function UsermanageUI() {
         </Paper>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Select2
-              isSearchable
-              value={users}
-              options={emp_options}
-              onChange={() => handleChangeusers()}
-              placeholder="Select User"
-            />
+          <FormControl className={classes.userSelect}>
+              <InputLabel id="demo-simple-select-label">
+                Select User
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={users}
+                fullWidth={true}
+                onChange={handleChangeusers}
+              >
+                {userlistselect?.map((item, index) => (
+                  <MenuItem key={item.username} value={item.username}>
+                    {item.empname}
+                  </MenuItem>
+                ))}
+              </Select>
+              </FormControl>
           </Grid>
+        </Grid>
+        <Grid container spacing={3}>
           <Grid item xs={6}>
             <FormControl className={classes.formCounter}>
               <InputLabel id="demo-simple-select-label">
@@ -173,7 +201,7 @@ export default function UsermanageUI() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={7}>
         <UserTable />
       </Grid>
     </Grid>

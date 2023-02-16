@@ -60,6 +60,8 @@ export default function AddNumber() {
       dispatch(
         addcounter_number(generate_number?.counterno, selectCounter, typeclient)
       );
+      setselectCounter("");
+      settypeclient("")
       dispatch(action_get_countertable());
       
     }
@@ -114,7 +116,15 @@ useEffect(()=>{
             }}
           >
             {selectCounter}
-
+            </div>
+            Counter No.
+            <div
+            style={{
+              fontSize: 50,
+              fontWeight: 400,
+            }}
+          >
+           
             {generate_number?.counterno}
           </div>
         </Paper>

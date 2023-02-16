@@ -38,6 +38,7 @@ export default function AddCashier() {
     settypeclient(event.target.value);
   }, []);
   const [countername, setcountername] = useState("");
+  const [prevcountername, setprevcountername] = useState("");
   const handletextChange = (event) => {
     setcountername(event.target.value);
   };
@@ -48,9 +49,11 @@ export default function AddCashier() {
       dispatch(action_setsnackbar("Please Fill Counter Name", "warning", true));
     } else {
       if(setbtntext === 'Add') {
+        dispatch(action_setsnackbar(rescountertable.message,"success", true));
         dispatch(action_add_counter(countername, typeclient));
       } else {
-        dispatch(action_update_counter(getupdatecashier?.cashier_id,countername, typeclient));
+        dispatch(action_update_counter(getupdatecashier?.cashier_id,countername, typeclient,prevcountername));
+        dispatch(action_setsnackbar("Counter Updated Successfully","success", true));
       
       }
       reset();
@@ -78,7 +81,7 @@ export default function AddCashier() {
     let mounted =true;
     const updatecashier = async () => {
     if(mounted){ 
-      console.log(getupdatecashier)
+    setprevcountername(getupdatecashier?.cashier_name);
      setcountername(getupdatecashier?.cashier_name);
      settypeclient(getupdatecashier?.cashier_type);
     }
@@ -92,11 +95,13 @@ export default function AddCashier() {
     dispatch(action_tableclick("Add"));
   }, [dispatch,]);
   return (
+    
     <Container fixed>
+      
       <Grid container spacing={3} justifyContent="center" alignItems="center">
         <Grid item xs={12}>
           <Typography style={{ flexGrow: 1, fontSize: 24 }} key="">
-            Add Cashier
+            Add Counter
           </Typography>
           <form className={classes.formControl} autoComplete="off">
             <TextField

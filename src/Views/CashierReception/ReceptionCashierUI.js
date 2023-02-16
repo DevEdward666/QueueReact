@@ -93,18 +93,12 @@ export default function ReceptionCashierUI() {
     let mounted = true;
     const alreadysetup = () => {
       if (mounted) {
-        if (storecountername !== null) {
           if (number_generated_cashier) {
             dispatch(action_reception_waitinglist());
             dispatch(action_reception_generatenext());
-            setvisible(false);
           }
           dispatch(action_reception_waitinglist());
           dispatch(action_reception_generatenext());
-          setvisible(false);
-        } else {
-          setvisible(true);
-        }
       }
     };
     mounted && alreadysetup();
@@ -176,10 +170,10 @@ export default function ReceptionCashierUI() {
   );
   const Served = useCallback(
     async (card) => {
-      if(card.queueno !== null || card.countername !== null || storecounterno !==null)
-      dispatch(action_served(card.queueno, card.countername, storecounterno));
-      dispatch(notifytoserve(card.queueno, card.countername, storecounterno));
-      dispatch(getserved(card.queueno, card.countername, storecounterno));
+      if(card.queueno !== null || card.countername !== null)
+      dispatch(action_served(card.queueno, card.countername, "1"));
+      dispatch(notifytoserve(card.queueno, card.countername, "1"));
+      dispatch(getserved(card.queueno, card.countername, "1"));
       dispatch(action_get_reception_last_queue());
       dispatch(
         action_set_notification(
@@ -187,7 +181,7 @@ export default function ReceptionCashierUI() {
           card.queueno,
           card.countername,
           "CASHIER",
-          storecounterno.toString()
+          "1"
         )
       );
       //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
@@ -197,7 +191,7 @@ export default function ReceptionCashierUI() {
           card.queueno,
           card.countername,
           "CASHIER",
-          storecounterno.toString()
+          "1"
         )
       );
       if (served) {
@@ -216,35 +210,8 @@ export default function ReceptionCashierUI() {
         }
       }
     },
-    [dispatch, storecounterno, served, phonenumber]
+    [dispatch, served, phonenumber]
   );
-  const generatenumber = useCallback(async () => {
-    dispatch(
-      action_generate_numbers(
-        queueno?.queueno,
-        storecountername,
-        typeclient,
-        maxnumber?.data.Maxnumber,
-        data?.redirectto,
-        totalticket
-      )
-    );
-    if (number_generated_cashier) {
-      dispatch(action_reception_waitinglist());
-      dispatch(action_reception_generatenext());
-    }
-  }, [
-    dispatch,
-    queueno?.queueno,
-    typeclient,
-    maxnumber?.data.Maxnumber,
-    data?.redirectto,
-    totalticket,
-    number_generated_cashier,
-  ]);
-  const handletextChange = (event) => {
-    settotalticket(event.target.value);
-  };
   return (
     <div style={{ marginTop: 100 }}>
     <Container maxWidth="lg">
@@ -281,22 +248,12 @@ export default function ReceptionCashierUI() {
                 >
                   {card.queueno}
                 </div>
-                <div
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 400,
-                  }}
-                  name="queueno"
-                >
-                  Counter: {storecounterno}
-                </div>
                 <Grid container spacing={6}>
                   <Grid item xs={4}>
                     <Button
                       variant="contained"
                       style={{ borderRadius: 25, width: "100%" }}
                       onClick={() => Notify(card)}
-                      disabled={notnull}
                     >
                       Notify
                     </Button>
@@ -307,7 +264,6 @@ export default function ReceptionCashierUI() {
                       color="primary"
                       style={{ borderRadius: 25, width: "100%" }}
                       onClick={() => Keep(card)}
-                      disabled={notnull}
                     >
                       Keep
                     </Button>
@@ -318,7 +274,6 @@ export default function ReceptionCashierUI() {
                       style={{ borderRadius: 25, width: "100%" }}
                       color="primary"
                       onClick={() => Served(card)}
-                      disabled={notnull}
                     >
                       Served
                     </Button>

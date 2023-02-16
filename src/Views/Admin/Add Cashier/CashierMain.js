@@ -32,14 +32,15 @@ export default function CashierMain() {
     };
   }, [dispatch]);
   return (
+    <div style={{marginTop:100}}>
+    <SuccessSnackbar
+      message={setsnackbar?.message}
+      opens={setsnackbar?.open}
+      close={false}
+      type={setsnackbar?.type}
+      handleClose={() => handleClose()}
+    />
     <Container fixed>
-      <SuccessSnackbar
-        message={setsnackbar?.message}
-        opens={setsnackbar?.open}
-        close={false}
-        type={setsnackbar?.type}
-        handleClose={() => handleClose()}
-      />
       <Paper>
         <Grid container>
           <Grid item xs={6}>
@@ -51,5 +52,6 @@ export default function CashierMain() {
         </Grid>
       </Paper>
     </Container>
+    </div>
   );
 }

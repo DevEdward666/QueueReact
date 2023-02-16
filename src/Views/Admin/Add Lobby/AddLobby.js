@@ -59,7 +59,7 @@ export default function AddLobby() {
             fullWidth={true}
           />
         </form>
-        <Grid item xs={6} style={{ padding: 20, float: "right" }}>
+        <Grid item xs={6} style={{ padding: 20, float: "left" }}>
           <Button
             onClick={handleSubmit}
             className="submit-btn"

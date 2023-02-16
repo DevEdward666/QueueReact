@@ -5,13 +5,18 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { useTheme } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
+import LooksOneIcon from '@material-ui/icons/LooksOne';
+import WeekendIcon from '@material-ui/icons/Weekend';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
 import clsx from "clsx";
 import React from "react";
 import useStyles from "./style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import CashierMain from "./Add Cashier/CashierMain";
 import AddLobbyMain from "./Add Lobby/AddLobbyMain";
 import NumberMain from "./Add Number/NumberMain";
+import Toolbar from '@material-ui/core/Toolbar';
 import MainUserManage from "./User Management/MainUserManage";
 export default function MainAdmin() {
   const classes = useStyles();
@@ -21,6 +26,7 @@ export default function MainAdmin() {
   const [hidelobby, sethidelobby] = React.useState(true);
   const [hideaddnumber, sethideaddnumber] = React.useState(true);
   const [hideusermanage, sethideusermanage] = React.useState(true);
+  const drawerWidth = 240;
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -52,60 +58,58 @@ export default function MainAdmin() {
     sethideaddnumber(true);
     sethideusermanage(false);
   };
+
   return (
     <div className={classes.root}>
       <Drawer
+         className={classes.drawer}
         variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
         classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
+          paper: classes.drawerPaper,
         }}
       >
+      <div className={classes.drawerContainer}>
         <List
           onMouseEnter={() => handleDrawerOpen()}
           onMouseLeave={() => handleDrawerClose()}
         >
           <ListItem button onClick={() => CashierClick()}>
             <ListItemIcon>
-              <AddIcon />
+              <HowToRegIcon />
             </ListItemIcon>
-            <ListItemText primary="Add Cashier" />
-          </ListItem>
-
-          <ListItem button onClick={() => LobbyClick()}>
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary="Add Lobby" />
+            <ListItemText primary="Add Counter" />
           </ListItem>
 
           <ListItem button onClick={() => NumberClick()}>
             <ListItemIcon>
-              <AddIcon />
+              <LooksOneIcon />
             </ListItemIcon>
             <ListItemText primary="Add Number" />
           </ListItem>
 
-          {/* <ListItem button onClick={() => UserManageClick()}>
+          <ListItem button onClick={() => LobbyClick()}>
             <ListItemIcon>
-              <AddIcon />
+              <WeekendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Add Lobby" />
+          </ListItem>
+
+
+          <ListItem button onClick={() => UserManageClick()}>
+            <ListItemIcon>
+              <PersonAddIcon />
             </ListItemIcon>
             <ListItemText primary="User Management" />
-          </ListItem> */}
+          </ListItem>
         </List>
+        </div>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {hidecashier ? null : <CashierMain />}
         {hidelobby ? null : <AddLobbyMain />}
         {hideaddnumber ? null : <NumberMain />}
-        {/* {hideusermanage ? null : <MainUserManage />} */}
+        {hideusermanage ? null : <MainUserManage />}
       </main>
     </div>
   );

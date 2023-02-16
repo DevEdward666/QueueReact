@@ -14,18 +14,16 @@ import ReceptionCashierUI from "./ReceptionCashierUI";
 export default function ReceptionMain() {
   const dispatch = useDispatch();
   const [notify, setnotify] = useState("");
-  const storecountername = window.localStorage.getItem("countername");
-  const storecountertype = window.localStorage.getItem("countertype");
-  const storecounterno = window.localStorage.getItem("counterno");
   const data = useSelector((state) => state.CashierReducers.data);
   const history = useHistory();
   useEffect(() => {
     let mounted = true;
-
     const getredirect = () => {
-      dispatch(action_getUserinfo());
-
-      dispatch(action_reception_generatenext());
+      if(mounted) {
+        dispatch(action_getUserinfo());
+        dispatch(action_reception_waitinglist());
+        dispatch(action_reception_generatenext());
+      }
     };
     mounted && getredirect();
     return () => {
@@ -64,11 +62,12 @@ export default function ReceptionMain() {
   }, [dispatch]);
   useEffect(() => {
     let mounted = true;
-    const counterlists = async () => {
+    const counterlists = () => {
       if(mounted) {
       dispatch(action_reception_generatenext());
       dispatch(action_GET_getcountermaintable());
       dispatch(action_getcountertype());
+      dispatch(action_reception_waitinglist());
       }
     };
 

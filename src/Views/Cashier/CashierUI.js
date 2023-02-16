@@ -56,6 +56,7 @@ export default function CashierUI() {
     (state) => state.DefaultReducers.hubconnectnotify
   );
   const [totalticket, settotalticket] = useState(0);
+  const [resetcounter, setresetcounter] = useState(false);
   const storecountername = window.localStorage.getItem("countername");
   const storecountertype = window.localStorage.getItem("countertype");
   const storecounterno = window.localStorage.getItem("counterno");
@@ -120,6 +121,7 @@ export default function CashierUI() {
     rerenderWaitingList,
     rerenderBilling,
     notify,
+    resetcounter,
   ]);
   useEffect(() => {
     if (storecountername) {
@@ -249,6 +251,14 @@ export default function CashierUI() {
   const handletextChange = (event) => {
     settotalticket(event.target.value);
   };
+  const resetCounter = useCallback(()=>{
+    setvisible(true);
+    window.localStorage.removeItem("countername");
+    window.localStorage.removeItem("countertype");
+    window.localStorage.removeItem("counterno");
+    window.location.href = "/Cashier";
+    setresetcounter(true);
+  },[])
   return (
     <Grid container spacing={8} justify="center">
       <Grid item xs={5}>
@@ -394,6 +404,31 @@ export default function CashierUI() {
             {visible ? <SetUpCounter /> : null}
           </Grid>
         </Grid>
+        {!visible ?
+        <Paper
+        elevation={3}
+        style={{ display: "grid", gridGap: "1em", padding: "1em",marginBottom: 20 }}
+        className={classes.paper}
+        >
+       <Grid container spacing={3}>
+    
+          <Grid item xs={12}>
+          <Button
+          onClick={() => resetCounter()}
+          style={{
+            float: "left",
+            borderRadius: 25,
+          }}
+          variant="contained"
+          color="secondary"
+          disabled={notnull}
+          >
+            Change Counter
+            </Button>
+          </Grid>
+        </Grid>
+        </Paper> : null}
+      
       </Grid>
       <Grid item xs={7}>
         <Grid item xs={12}>

@@ -16,7 +16,7 @@ export default function ReceptionWaitingTable() {
   const [rows, setRows] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const waitinglist = useSelector((state) => state.CashierReducers.waitingList);
+  const receptionwaitinglist = useSelector((state) => state.CashierReducers.receptionwaitingList);
 
   useEffect(() => {
     let mounted = true;
@@ -26,7 +26,7 @@ export default function ReceptionWaitingTable() {
         return { queueno, date };
       }
       const tempRows = [];
-      waitinglist?.map((data) =>
+      receptionwaitinglist?.map((data) =>
         tempRows.push(createData(data.queueno, data.docdate))
       );
       setRows(tempRows);
@@ -37,7 +37,7 @@ export default function ReceptionWaitingTable() {
     return () => {
       mounted = false;
     };
-  }, [waitinglist]);
+  }, [receptionwaitinglist]);
   const columns = [
     { id: "name", label: "Queue No", minWidth: 170 },
     { id: "code", label: "Date", minWidth: 100 },
@@ -50,6 +50,7 @@ export default function ReceptionWaitingTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  console.log(receptionwaitinglist)
   return (
     <Paper>
       <TableContainer style={{ maxHeight: 350, marginTop: 14 }}>

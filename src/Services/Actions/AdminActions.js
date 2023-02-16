@@ -57,23 +57,30 @@ export const action_get_countertype = () => async (dispatch) => {
   });
 };
 
-export const insert_user_queue =
-  (users, counternumber, counter, type) => async (dispatch) => {
-    var url = `${process.env.REACT_APP_BASE_URL}/api/user/insertqueueuser`;
-    const response = await fetch(url, {
+  export const insert_user_queue =
+  (users, counternumber, counter, type) => async (disaptch) => {
+    var url = `${process.env.REACT_APP_BASE_URL}api/user/insertqueueuser`;
+    fetch(url, {
       method: "POST",
       withCredentials: true,
       headers: {
         Authorization: bearer,
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: new URLSearchParams({
+      body: JSON.stringify({
         username: users,
         accnt_type: counternumber,
         redirectto: counter,
         type: type,
       }),
-    });
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        disaptch({
+          type: SET_SUCCESS,
+          payload: { success: res.success, message: res.message },
+        });
+      });
   };
 export const action_add_counter =
   (countername, typeclient) => async (disaptch) => {
@@ -99,7 +106,7 @@ export const action_add_counter =
       });
   };
   export const action_update_counter =
-  (counterid,countername, typeclient) => async (disaptch) => {
+  (counterid,countername, typeclient,prevcountername) => async (disaptch) => {
     var url = `${process.env.REACT_APP_BASE_URL}api/queue/getcounterexistandupdate`;
     fetch(url, {
       method: "POST",
@@ -112,6 +119,7 @@ export const action_add_counter =
         counterid:counterid,
         countername: countername,
         countertype: typeclient,
+        prev_counter_name:prevcountername
       }),
     })
       .then((response) => response.json())

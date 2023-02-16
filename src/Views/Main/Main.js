@@ -131,7 +131,7 @@ export default function Main() {
     let mounted = true;
     let i=0;
     var assistant = new Artyom();
-    const notifys = async () => {
+    const notifys = () => {
       if(mounted){
         if (notify.from === "CASHIER" &&  notify?.type !== "info") {
           if(notify?.type !== undefined ){
@@ -139,7 +139,6 @@ export default function Main() {
               lang:"en-US",
              onStart: function() {
                  if(assistant.isSpeaking()){
-                  audio.play();
                   i++;
                   if(i>1){
                     assistant.fatality()

@@ -83,15 +83,7 @@ export default function AddLobbyDtls() {
   return (
     <Grid container spacing={3}>
       <Grid item lg={12}>
-        <Paper
-          elevation={3}
-          style={{
-            display: "grid",
-            gridGap: "1em",
-            padding: "1em",
-          }}
-          className={classes.paper}
-        >
+       
           <div
             style={{
               fontSize: 30,
@@ -177,7 +169,7 @@ export default function AddLobbyDtls() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6} style={{ float: "right" }}>
+              <Grid item xs={6} style={{ float:"left" }}>
                 <Button
                   onClick={() => handleSubmit()}
                   className="submit-btn"
@@ -192,7 +184,6 @@ export default function AddLobbyDtls() {
               </Grid>
             </Grid>
           </div>
-        </Paper>
       </Grid>
     </Grid>
   );

@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 55,
   },
+  userSelect: {
+    margin: theme.spacing(1),
+    width:"100%"
+  },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },

@@ -52,11 +52,7 @@ export default function NumberTable() {
     setPage(0);
   };
   return (
-    <Paper
-      className={classes.root}
-      elevation={3}
-      style={{ display: "grid", gridGap: "1em", padding: "1em" }}
-    >
+    <div>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -98,6 +94,6 @@ export default function NumberTable() {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Paper>
+    </div>
   );
 }

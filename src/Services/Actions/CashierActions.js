@@ -12,6 +12,7 @@ import {
   SET_SELECTED_COUNTERS,
   SET_SERVED,
   SET_WAITINGLIST,
+  SET_RECEPTION_WAITINGLIST,
   SET_BASE64TO_PDF,
   GET_SERVED_KEEP_INFO,
   NUMBER_GENERATED_CASHIER,
@@ -237,7 +238,6 @@ export const action_waitinglist =
   export const action_reception_waitinglist =
   () => async (dispatch) => {
     var url = `${process.env.REACT_APP_BASE_URL}api/queue/reception_waitinglist`;
-
     const response = await fetch(url, {
       method: "POST",
       withCredentials: true,
@@ -246,11 +246,9 @@ export const action_waitinglist =
         "Content-Type": "application/json",
       }
     });
-
-    const tempRows = [];
     const jsonData = await response.json();
     dispatch({
-      type: SET_WAITINGLIST,
+      type: SET_RECEPTION_WAITINGLIST,
       payload: jsonData.data,
     });
   };

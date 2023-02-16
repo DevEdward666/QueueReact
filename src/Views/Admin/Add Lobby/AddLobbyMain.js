@@ -31,6 +31,7 @@ export default function AddLobbyMain() {
     dispatch(action_setsnackbar("", "", false));
   }, [dispatch]);
   return (
+    <div style={{marginTop:100}}>
     <Container fixed>
       <SuccessSnackbar
         message={setsnackbar?.message}
@@ -43,5 +44,6 @@ export default function AddLobbyMain() {
         <AddLobby />
       </Paper>
     </Container>
+    </div>
   );
 }

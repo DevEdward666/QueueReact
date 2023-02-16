@@ -55,11 +55,7 @@ export default function AddCashierTable() {
   },[dispatch]);
   return (
     <Grid item xs={12}>
-      <Paper
-        className={classes.root}
-        elevation={3}
-        style={{ display: "grid", gridGap: "1em", padding: "1em" }}
-      >
+     
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -100,7 +96,6 @@ export default function AddCashierTable() {
           onChangePage={(e, p) => handleChangePage(e, p)}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </Paper>
     </Grid>
   );
 }

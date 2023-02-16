@@ -30,6 +30,7 @@ const NumberMain = () => {
     dispatch(action_setsnackbar("", "", false));
   }, [dispatch]);
   return (
+    <div style={{marginTop:100}}>
     <Container fixed>
       <SuccessSnackbar
         message={setsnackbar?.message}
@@ -38,10 +39,9 @@ const NumberMain = () => {
         type={setsnackbar?.type}
         handleClose={() => handleClose()}
       />
-      <Paper>
         <AddNumber />
-      </Paper>
     </Container>
+    </div>
   );
 };
 export default NumberMain;

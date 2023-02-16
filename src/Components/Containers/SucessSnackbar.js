@@ -38,11 +38,11 @@ const SuccessSnackbar = ({
     <div className={classes.root}>
       <Snackbar
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: "bottom",
+          horizontal: "right",
         }}
         open={opens}
-        autoHideDuration={10000}
+        autoHideDuration={3000}
         onClose={closes}
         action={
           <React.Fragment>
