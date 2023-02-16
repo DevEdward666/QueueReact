@@ -42,7 +42,7 @@ export default function RegularGenerator() {
       if (mounted) {
         if (number_generated === true) {
           await setOpen(true);
-          await setDialogOpen(true);
+          // await setDialogOpen(true);
           await setmessage("Generated");
           await setopenbackdrop(false);
           dispatch(
