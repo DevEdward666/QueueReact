@@ -30,7 +30,7 @@ const admin = {
   setbtntext: "Add",
   userlists: [],
   userlistselect: [],
-  update_cashier:{cashierid:0,cashierName: "", counterType:""}
+  update_cashier:{cashierid:0,cashierName: "", counterType:"",active:""}
 };
 
 const AdminReducers = (data_state = admin, actions) => {

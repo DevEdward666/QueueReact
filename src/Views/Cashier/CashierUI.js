@@ -291,7 +291,7 @@ export default function CashierUI() {
                   }}
                   name="queueno"
                 >
-                  {card.queueno}
+                  {card.queueno.split('-')[2]}
                 </div>
                 <div
                   style={{

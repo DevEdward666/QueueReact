@@ -11,7 +11,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Lobby from "../../Views/Lobby/Lobby";
 import Pages from "../../Views/pages/Pages";
-import { lobbytable } from "../../Services/Actions/QueueActions";
+import { lobbytable,selectedpage,selectedlobby } from "../../Services/Actions/QueueActions";
+import { useCallback } from "react";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
@@ -58,11 +59,11 @@ const UseModal = ({ handleClose, open }) => {
   }, [currenturl]);
   return (
     <div>
-      <Dialog
+      <Dialog 
         // {...fullscreen}
         fullScreen
         open={open}
-        onClose={() => handleClose()}
+        onClose={()=> handleClose()}
         TransitionComponent={Transition}
       >
         <AppBar className={classes.appBar}>

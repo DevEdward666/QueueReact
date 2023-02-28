@@ -25,7 +25,7 @@ export default function AddCashier() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [typeclient, settypeclient] = useState("");
-
+  const [status, setstatus] = useState("");
   const selectcountertype = useSelector(
     (state) => state.AdminReducers.countertype
   );
@@ -36,6 +36,9 @@ export default function AddCashier() {
   const rescountertable = useSelector((state) => state.AdminReducers.add_counter_success);
   const handleChange = useCallback(async (event) => {
     settypeclient(event.target.value);
+  }, []);
+  const handleChangeStatus = useCallback(async (event) => {
+    setstatus(event.target.value);
   }, []);
   const [countername, setcountername] = useState("");
   const [prevcountername, setprevcountername] = useState("");
@@ -50,19 +53,20 @@ export default function AddCashier() {
     } else {
       if(setbtntext === 'Add') {
         dispatch(action_setsnackbar(rescountertable.message,"success", true));
-        dispatch(action_add_counter(countername, typeclient));
+        dispatch(action_add_counter(countername, typeclient,status));
       } else {
-        dispatch(action_update_counter(getupdatecashier?.cashier_id,countername, typeclient,prevcountername));
+        dispatch(action_update_counter(getupdatecashier?.cashier_id,countername, typeclient,prevcountername,status));
         dispatch(action_setsnackbar("Counter Updated Successfully","success", true));
       
       }
       reset();
     }
-  }, [countername, dispatch, typeclient,getupdatecashier?.cashier_id]);
+  }, [countername, dispatch, typeclient,getupdatecashier?.cashier_id,status]);
 
   const reset=()=>{
     setcountername("");
     settypeclient("");
+    setstatus("");
     dispatch(action_tableclick("Add"));
   }
   useEffect(()=>{
@@ -84,6 +88,8 @@ export default function AddCashier() {
     setprevcountername(getupdatecashier?.cashier_name);
      setcountername(getupdatecashier?.cashier_name);
      settypeclient(getupdatecashier?.cashier_type);
+     setstatus(getupdatecashier?.active);
+     console.log('getupdatecashier', getupdatecashier);
     }
   }
     mounted && updatecashier();
@@ -93,7 +99,8 @@ export default function AddCashier() {
   },[getupdatecashier])
   const handleCancel = useCallback(() => {
     dispatch(action_tableclick("Add"));
-  }, [dispatch,]);
+    reset();
+  }, [dispatch]);
   return (
     
     <Container fixed>
@@ -129,7 +136,24 @@ export default function AddCashier() {
               ))}
             </Select>
           </FormControl>
-
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">Counter Status</InputLabel>
+            <Select
+              name="activecounter"
+              label="Counter Status"
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={status}
+              onChange={(e) => handleChangeStatus(e)}
+            >
+                <MenuItem  value='1'>
+                  Active
+                </MenuItem>
+                <MenuItem value='0'>
+                  Inactive
+                </MenuItem>
+            </Select>
+          </FormControl>
           <Grid
             container
             direction="row"

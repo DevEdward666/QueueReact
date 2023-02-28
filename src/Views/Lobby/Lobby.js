@@ -29,6 +29,8 @@ const Lobby = () => {
         close: false,
       })
     );
+    
+    console.log(card);
   };
 
   return (

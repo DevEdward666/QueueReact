@@ -89,13 +89,13 @@ export const generatenumberregular = (countername) => async (dispatch) => {
           printable: res2.data,
           type: "pdf",
           base64: true,
-          onLoadingEnd: () =>
-            dispatch({
+          onLoadingEnd: async() =>
+            await dispatch({
               type: NUMBER_GENERATED,
               payload: res2.success,
             }),
-          onLoadingStart: () =>
-            dispatch({
+          onLoadingStart: async () =>
+            await dispatch({
               type: NUMBER_GENERATED,
               payload: false,
             }),

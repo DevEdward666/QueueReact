@@ -81,8 +81,10 @@ export default function Main() {
     const getallnumbers = async () => {
       if (selectedLobby?.selected?.lobbyinfo) {
         dispatch(action_getCounterList(selectedLobby?.selected?.lobbyinfo[0],selectedLobby?.selected?.lobbyinfo[1]));
-
+        dispatch(set_counterview(true));
+        setOpen(false)
         // setlobbynoexist(counterlist.success);
+        // REMOVE THIS IN THE FUTURE IF SOMEONE WANTS TO SELECT DIFFRENT LOBBIES
         if (selectedLobby?.selected?.lobbyinfo[1] === "ALL") {
           dispatch(set_counterview(true));
         } else {
@@ -103,16 +105,19 @@ export default function Main() {
 
     const getinfo = async () => {
       dispatch(getuserinfo());
+      
       if (!lobbynoexist) {
         setOpen(true);
-        dispatch(selectedpage(true));
+        dispatch(selectedpage(false));
+        dispatch(set_counterview(true));
+        dispatch(action_getCounterList(0,'ALL'));
       }
     };
 
     mounted && getinfo();
 
     return () => {
-      return false;
+        mounted = false;
     };
   }, [dispatch, lobbynoexist]);
   useEffect(() => {
@@ -120,11 +125,12 @@ export default function Main() {
     const getinfo = async () => {
       if (!pagelist) {
         setOpen(pagelist);
+        
       }
     };
     mounted && getinfo();
     return () => {
-      return false;
+      mounted = false;
     };
   }, [dispatch, pagelist]);
   useEffect(() => {
@@ -135,7 +141,9 @@ export default function Main() {
       if(mounted){
         if (notify.from === "CASHIER" &&  notify?.type !== "info") {
           if(notify?.type !== undefined ){
-            assistant.say( `Queue Number ${notify?.Notification}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
+            var queueno =  notify?.Notification.split('-')[2];
+            audio.play();
+            assistant.say( `Queue Number ${queueno}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
               lang:"en-US",
              onStart: function() {
                  if(assistant.isSpeaking()){

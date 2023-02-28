@@ -83,7 +83,7 @@ export const action_get_countertype = () => async (dispatch) => {
       });
   };
 export const action_add_counter =
-  (countername, typeclient) => async (disaptch) => {
+  (countername, typeclient,status) => async (disaptch) => {
     var url = `${process.env.REACT_APP_BASE_URL}api/queue/getcounterexist`;
     fetch(url, {
       method: "POST",
@@ -95,6 +95,7 @@ export const action_add_counter =
       body: JSON.stringify({
         countername: countername,
         countertype: typeclient,
+        active:status,
       }),
     })
       .then((response) => response.json())
@@ -106,7 +107,7 @@ export const action_add_counter =
       });
   };
   export const action_update_counter =
-  (counterid,countername, typeclient,prevcountername) => async (disaptch) => {
+  (counterid,countername, typeclient,prevcountername,status) => async (disaptch) => {
     var url = `${process.env.REACT_APP_BASE_URL}api/queue/getcounterexistandupdate`;
     fetch(url, {
       method: "POST",
@@ -119,7 +120,8 @@ export const action_add_counter =
         counterid:counterid,
         countername: countername,
         countertype: typeclient,
-        prev_counter_name:prevcountername
+        prev_counter_name:prevcountername,
+        active:status
       }),
     })
       .then((response) => response.json())
@@ -319,9 +321,9 @@ export const action_tableclick = (btntext) => async (dispatch) => {
     payload: btntext,
   });
 };
-export const set_update_cashier =(cashier_id,cashier_name,cashier_type) =>async (dispatch) => {
+export const set_update_cashier =(cashier_id,cashier_name,cashier_type,active) =>async (dispatch) => {
   dispatch({
     type: UPDATE_CASHIER,
-    payload: { cashier_id:cashier_id,cashier_name: cashier_name, cashier_type: cashier_type },
+    payload: { cashier_id:cashier_id,cashier_name: cashier_name, cashier_type: cashier_type,active },
   });
 }

@@ -72,7 +72,7 @@ export default function WaitingTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               ?.map((row, index) => (
                 <TableRow key={row.queueno}>
-                  <TableCell>{row.queueno}</TableCell>
+                  <TableCell>{row.queueno.split('-')[2]}</TableCell>
                   <TableCell>{moment(row.date).format("hh:mm:ss A")}</TableCell>
                 </TableRow>
               ))}

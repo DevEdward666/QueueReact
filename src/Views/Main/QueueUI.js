@@ -150,7 +150,7 @@ const QueueUI = () => {
                         fontWeight: 600,
                       }}
                     >
-                      {card.queueno}
+                      {card.queueno.split('-')[2]}
                     </div>
                   </Paper>
                 </Grid>
@@ -186,7 +186,7 @@ const QueueUI = () => {
                       fontWeight: 900,
                     }}
                   >
-                    {card.queueno}
+                    {card.queueno.split('-')[2]}
                   </div>
                   <div
                     style={{

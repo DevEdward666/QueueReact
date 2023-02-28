@@ -22,6 +22,7 @@ export default function AddCashierTable() {
   const columns = [
     { id: "name", label: "Counter Name", minWidth: 10 },
     { id: "type", label: "Counter Type", minWidth: 10 },
+    { id: "active", label: "Counter Status", minWidth: 10 },
   ];
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -33,14 +34,15 @@ export default function AddCashierTable() {
   useEffect(() => {
     let mounted = true;
     const counterlist = async () => {
-      function createData(counterid,countername, countertype) {
-        return {counterid, countername, countertype };
+      function createData(counterid,countername, countertype,active) {
+        return {counterid, countername, countertype,active };
       }
       const tempRows = [];
       countertable?.map((data) =>
-        tempRows.push(createData(data.counterid,data.countername, data.countertype))
+        tempRows.push(createData(data.counterid,data.countername, data.countertype,data.active))
       );
       setRows(tempRows);
+      console.log(countertable);
     };
 
     mounted && counterlist();
@@ -49,7 +51,7 @@ export default function AddCashierTable() {
     };
   }, [countertable]);
   const handleTableData = useCallback((value) => {
-    dispatch(set_update_cashier(value.counterid,value.countername,value.countertype));
+    dispatch(set_update_cashier(value.counterid,value.countername,value.countertype,value.active));
     console.log(value);
     dispatch(action_tableclick("Update"));
   },[dispatch]);
@@ -82,6 +84,7 @@ export default function AddCashierTable() {
                   >
                     <TableCell>{row.countername}</TableCell>
                     <TableCell>{row.countertype} </TableCell>
+                    <TableCell>{row.active === "0" ? "Inactive": "Active"} </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
