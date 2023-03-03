@@ -65,6 +65,8 @@ export default function CashierUI() {
   );
   const [typeclient, settypeclient] = useState("");
   const [notify, setnotify] = useState("");
+  const [notifyCounterName, setnotifyCounterName] = useState("");
+  const [notified, setNotified] = useState(false);
   const handleChange = useCallback((event) => {
     settypeclient(event.target.value);
   }, []);
@@ -131,21 +133,36 @@ export default function CashierUI() {
   const Notify = useCallback(
     async (card) => {
       dispatch(action_get_last_queue(storecounterno, card.countername));
-      if (lastqueue.length>0) {
-         //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
-        dispatch(
-          action_set_notification(
-            true,
-            lastqueue[0].queueno,
-            card.countername,
-            "CASHIER",
-            storecounterno.toString()
-          )
-        );
-      }
+      setnotifyCounterName(card.countername);
+      setNotified(true);
     },
     [dispatch, lastqueue, storecounterno]
   );
+  useEffect(() => {
+    let mounted =true;
+    const notify = () => {
+      if(mounted){
+        if (lastqueue.length>0 && notified) {
+          //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
+         dispatch(
+           action_set_notification(
+             true,
+             lastqueue[0].queueno,
+             notifyCounterName,
+             "CASHIER",
+             storecounterno.toString()
+           )
+         );
+       }
+      }
+    };
+    mounted && notify();
+    return () => {
+      mounted = false;
+      setnotifyCounterName("");
+      setNotified(false);
+    };
+  }, [dispatch,lastqueue,storecounterno]);
   const Keep = useCallback(
     async (card) => {
       dispatch(action_keep(card.queueno, card.countername, storecounterno));
@@ -193,15 +210,15 @@ export default function CashierUI() {
         )
       );
       //------COMMENTED THIS IS FOR MOBILE SMS NOTIFICATION IF THE USERS QUEUE NUMBER IS NEAR
-      dispatch(
-        action_notify_signal_mobile(
-          true,
-          card.queueno,
-          card.countername,
-          "CASHIER",
-          storecounterno.toString()
-        )
-      );
+      // dispatch(
+      //   action_notify_signal_mobile(
+      //     true,
+      //     card.queueno,
+      //     card.countername,
+      //     "CASHIER",
+      //     storecounterno.toString()
+      //   )
+      // );
       if (served) {
         //  await setPlay(true);
         // var utterThis = new SpeechSynthesisUtterance(`Queue Number ${card.queueno}. Please go to ${card.countername} . Counter ${storecounterno}.`);
@@ -212,10 +229,10 @@ export default function CashierUI() {
         await setRerenderBilling((prevBilling) => prevBilling + 1);
         await setRerenderWaitingList((prevList) => prevList + 1);
 
-        var number = phonenumber;
-        if (number !== " +63") {
-          sendmessage();
-        }
+        // var number = phonenumber;
+        // if (number !== " +63") {
+        //   sendmessage();
+        // }
       }
     },
     [dispatch, storecounterno, served, phonenumber]
@@ -264,7 +281,8 @@ export default function CashierUI() {
       <Grid item xs={5}>
         <Grid item xs={12} style={{ marginBottom: 20 }}>
           <Grid item xs={12}>
-            {generate?.map((card, index) => (
+            {generate?.map((card, index) => 
+             (
               <Paper
                 key={card.queueno}
                 elevation={3}
@@ -291,7 +309,13 @@ export default function CashierUI() {
                   }}
                   name="queueno"
                 >
-                  {card.queueno.split('-')[2]}
+                  {card.queueno.split('-')[2]  <= parseInt('0009')?
+                  card.queueno.split('-')[2].substring(3):
+                  card.queueno.split('-')[2]  <= parseInt('0099')?
+                  card.queueno.split('-')[2].substring(2):
+                  card.queueno.split('-')[2]  <= parseInt('0999')?
+                  card.queueno.split('-')[2].substring(1):
+                 card.queueno.split('-')[2].substring(2)}
                 </div>
                 <div
                   style={{

@@ -16,6 +16,7 @@ export default function WaitingTable() {
   const [rows, setRows] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [getqueuenumber, setqueuenumber] = useState("");
   const waitinglist = useSelector((state) => state.CashierReducers.waitingList);
 
   useEffect(() => {
@@ -70,9 +71,16 @@ export default function WaitingTable() {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              ?.map((row, index) => (
+              ?.map((row, index) =>(
                 <TableRow key={row.queueno}>
-                  <TableCell>{row.queueno.split('-')[2]}</TableCell>
+                  <TableCell>
+                    {row.queueno.split('-')[2]  <= parseInt('0009')?
+                    row.queueno.split('-')[2].substring(3):
+                    row.queueno.split('-')[2]  <= parseInt('0099')?
+                    row.queueno.split('-')[2].substring(2):
+                    row.queueno.split('-')[2]  <= parseInt('0999')?
+                    row.queueno.split('-')[2].substring(1): row.queueno.split('-')[2].substring(2)}
+                  </TableCell>
                   <TableCell>{moment(row.date).format("hh:mm:ss A")}</TableCell>
                 </TableRow>
               ))}

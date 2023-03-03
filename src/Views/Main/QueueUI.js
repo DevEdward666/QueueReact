@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import useStyles from "./style";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -9,7 +9,7 @@ const QueueUI = () => {
   const counterview = useSelector((state) => state.QueueReducers.counterview);
 
   const counterlist = useSelector((state) => state.QueueReducers.counterlist);
-
+  console.log(counterlist);
   return (
     <div className={classes.root}>
       {counterview ? (
@@ -90,7 +90,7 @@ const QueueUI = () => {
           <Divider variant={"fullWidth"} classes={{ fontWeight: 900 }} />
           <Divider variant={"fullWidth"} classes={{ fontWeight: 900 }} />
           <Grid container spacing={12}>
-            {counterlist?.data?.map((card,index) => (
+            {counterlist?.data?.map((card,index) =>  (
               <>
                 <Grid item xs={4} key={card.countername}>
                   <Paper
@@ -150,7 +150,13 @@ const QueueUI = () => {
                         fontWeight: 600,
                       }}
                     >
-                      {card.queueno.split('-')[2]}
+                      {card.queueno.split('-')[2]  <= parseInt('0009')?
+                      card.queueno.split('-')[2].substring(3):
+                      card.queueno.split('-')[2]  <= parseInt('0099')?
+                      card.queueno.split('-')[2].substring(2):
+                      card.queueno.split('-')[2]  <= parseInt('0999')?
+                      card.queueno.split('-')[2].substring(1):
+                      card.queueno.split('-')[2].substring(2)}
                     </div>
                   </Paper>
                 </Grid>
@@ -186,7 +192,13 @@ const QueueUI = () => {
                       fontWeight: 900,
                     }}
                   >
-                    {card.queueno.split('-')[2]}
+                       {card.queueno.split('-')[2]  <= parseInt('0009')?
+                      card.queueno.split('-')[2].substring(3):
+                      card.queueno.split('-')[2]  <= parseInt('0099')?
+                      card.queueno.split('-')[2].substring(2):
+                      card.queueno.split('-')[2]  <= parseInt('0999')?
+                      card.queueno.split('-')[2].substring(1):
+                      card.queueno.split('-')[2].substring(2)}
                   </div>
                   <div
                     style={{

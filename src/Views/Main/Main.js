@@ -33,7 +33,6 @@ export default function Main() {
   );
   const served = useSelector((state) => state.CashierReducers.served);
   const pagelist = useSelector((state) => state.QueueReducers.pagelist);
-  
   //   const lastqueue = useSelector((state) => state.CashierReducers.lastqueue);
   useEffect(() => {
     let mounted = true;
@@ -77,15 +76,17 @@ export default function Main() {
   }, [dispatch, hubconnectnotifymobile]);
   useEffect(() => {
     let mounted = true;
-
     const getallnumbers = async () => {
+      console.log(selectedLobby?.selected?.lobbyinfo);
       if (selectedLobby?.selected?.lobbyinfo) {
+       
         dispatch(action_getCounterList(selectedLobby?.selected?.lobbyinfo[0],selectedLobby?.selected?.lobbyinfo[1]));
         dispatch(set_counterview(true));
         setOpen(false)
         // setlobbynoexist(counterlist.success);
         // REMOVE THIS IN THE FUTURE IF SOMEONE WANTS TO SELECT DIFFRENT LOBBIES
         if (selectedLobby?.selected?.lobbyinfo[1] === "ALL") {
+          dispatch(action_getCounterList(selectedLobby?.selected?.lobbyinfo[0],selectedLobby?.selected?.lobbyinfo[1]));
           dispatch(set_counterview(true));
         } else {
           dispatch(set_counterview(false));
@@ -142,19 +143,27 @@ export default function Main() {
         if (notify.from === "CASHIER" &&  notify?.type !== "info") {
           if(notify?.type !== undefined ){
             var queueno =  notify?.Notification.split('-')[2];
-            audio.play();
-            assistant.say( `Queue Number ${queueno}. Please go to ${notify?.type} . Counter ${notify?.to}.`, {
-              lang:"en-US",
-             onStart: function() {
-                 if(assistant.isSpeaking()){
-                  i++;
-                  if(i>1){
-                    assistant.fatality()
-                    audio.pause();
-                  }
-                 }
-             },
-           });
+            var queuenoCall='';
+            if(parseInt(queueno) <= parseInt('0009')) {
+              queuenoCall = queueno.substring(3)
+            }else if(parseInt(queueno) <= parseInt('0099')){
+              queuenoCall = queueno.substring(2)
+            }else if(parseInt(queueno) <= parseInt('0999')){
+              queuenoCall = queueno.substring(1)
+            }
+              audio.play();
+              assistant.say( `Queue Number ${queuenoCall}. Please go to ${notify?.type}`, {
+                lang:"en-US",
+               onStart: function() {
+                   if(assistant.isSpeaking()){
+                    i++;
+                    if(i>1){
+                      assistant.fatality()
+                      audio.pause();
+                    }
+                   }
+               },
+             });
           }
         } 
         // else if (notifymobile.from === "CASHIER" &&  notify?.type !== "info") {
