@@ -101,10 +101,12 @@ export default function CashierUI() {
           if (number_generated_cashier) {
             dispatch(action_waitinglist(storecountername, storecountertype));
             dispatch(action_generatenext(storecountername, storecountertype));
+            dispatch(action_get_last_queue(storecounterno, storecountername));
             setvisible(false);
           }
           dispatch(action_waitinglist(storecountername, storecountertype));
           dispatch(action_generatenext(storecountername, storecountertype));
+          dispatch(action_get_last_queue(storecounterno, storecountername));
           setvisible(false);
         } else {
           setvisible(true);
@@ -117,6 +119,7 @@ export default function CashierUI() {
     };
   }, [
     dispatch,
+    lastqueue,
     number_generated_cashier,
     storecountername,
     storecountertype,
@@ -132,8 +135,8 @@ export default function CashierUI() {
   }, [storecountername]);
   const Notify = useCallback(
     async (card) => {
-      dispatch(action_get_last_queue(storecounterno, card.countername));
-      setnotifyCounterName(card.countername);
+      dispatch(action_get_last_queue(storecounterno, lastqueue[0].countername));
+      setnotifyCounterName(lastqueue[0].counter);
       setNotified(true);
     },
     [dispatch, lastqueue, storecounterno]
@@ -196,10 +199,11 @@ export default function CashierUI() {
   );
   const Served = useCallback(
     async (card) => {
+      dispatch(action_get_last_queue(storecounterno, card.countername));
+      setnotifyCounterName(card.countername);
       dispatch(action_served(card.queueno, card.countername, storecounterno));
       dispatch(notifytoserve(card.queueno, card.countername, storecounterno));
       dispatch(getserved(card.queueno, card.countername, storecounterno));
-      dispatch(action_get_last_queue(storecounterno, card.countername));
       dispatch(
         action_set_notification(
           true,
@@ -281,10 +285,7 @@ export default function CashierUI() {
       <Grid item xs={5}>
         <Grid item xs={12} style={{ marginBottom: 20 }}>
           <Grid item xs={12}>
-            {generate?.map((card, index) => 
-             (
-              <Paper
-                key={card.queueno}
+          <Paper
                 elevation={3}
                 style={{
                   display: "grid",
@@ -293,6 +294,18 @@ export default function CashierUI() {
                 }}
                 className={classes.paper}
               >
+            {generate?.map((card, index) => 
+             (
+              <>
+               <div
+                style={{
+                  fontSize: 24,
+                  fontWeight: 800,
+                }}
+              >
+              
+              NEXT TO SERVE
+              </div>
                 <div
                   style={{
                     fontSize: 24,
@@ -309,13 +322,13 @@ export default function CashierUI() {
                   }}
                   name="queueno"
                 >
-                  {card.queueno.split('-')[2]  <= parseInt('0009')?
-                  card.queueno.split('-')[2].substring(3):
-                  card.queueno.split('-')[2]  <= parseInt('0099')?
-                  card.queueno.split('-')[2].substring(2):
-                  card.queueno.split('-')[2]  <= parseInt('0999')?
-                  card.queueno.split('-')[2].substring(1):
-                 card.queueno.split('-')[2].substring(2)}
+                  {card.queueno.split('|')[2]  <= parseInt('0009')?
+                  card.queueno.split('|')[2].substring(3):
+                  card.queueno.split('|')[2]  <= parseInt('0099')?
+                  card.queueno.split('|')[2].substring(2):
+                  card.queueno.split('|')[2]  <= parseInt('0999')?
+                  card.queueno.split('|')[2].substring(1):
+                 card.queueno.split('|')[2].substring(2)}
                 </div>
                 <div
                   style={{
@@ -324,6 +337,7 @@ export default function CashierUI() {
                   }}
                   name="queueno"
                 >
+                 
                   Counter: {storecounterno}
                 </div>
                 <Grid container spacing={6}>
@@ -360,8 +374,57 @@ export default function CashierUI() {
                     </Button>
                   </Grid>
                 </Grid>
-              </Paper>
+                </>
             ))}
+            {lastqueue?.map((lastqueue, index) => 
+             (
+              <>
+              <div
+                style={{
+                  fontSize: 24,
+                  fontWeight: 800,
+                }}
+              >
+              
+              NOW SERVING
+              </div>
+                <div
+                  style={{
+                    fontSize: 24,
+                    fontWeight: 600,
+                  }}
+                  key={lastqueue.queueno}
+                >
+                  {lastqueue.counter}
+                </div>
+                <div
+                  style={{
+                    fontSize: 24,
+                    fontWeight: 900,
+                  }}
+                  name="queueno"
+                >
+                  {lastqueue.queueno.split('|')[2]  <= parseInt('0009')?
+                  lastqueue.queueno.split('|')[2].substring(3):
+                  lastqueue.queueno.split('|')[2]  <= parseInt('0099')?
+                  lastqueue.queueno.split('|')[2].substring(2):
+                  lastqueue.queueno.split('|')[2]  <= parseInt('0999')?
+                  lastqueue.queueno.split('|')[2].substring(1):
+                 lastqueue.queueno.split('|')[2].substring(2)}
+                </div>
+                <div
+                  style={{
+                    fontSize: 24,
+                    fontWeight: 400,
+                  }}
+                  name="queueno"
+                >
+                 
+                  Counter: {storecounterno}
+                </div>
+                </>
+            ))}
+             </Paper>
           </Grid>
         </Grid>
         <Grid item xs={12}>

@@ -77,7 +77,6 @@ export default function Main() {
   useEffect(() => {
     let mounted = true;
     const getallnumbers = async () => {
-      console.log(selectedLobby?.selected?.lobbyinfo);
       if (selectedLobby?.selected?.lobbyinfo) {
        
         dispatch(action_getCounterList(selectedLobby?.selected?.lobbyinfo[0],selectedLobby?.selected?.lobbyinfo[1]));
@@ -142,7 +141,7 @@ export default function Main() {
       if(mounted){
         if (notify.from === "CASHIER" &&  notify?.type !== "info") {
           if(notify?.type !== undefined ){
-            var queueno =  notify?.Notification.split('-')[2];
+            var queueno =  notify?.Notification.split('|')[2];
             var queuenoCall='';
             if(parseInt(queueno) <= parseInt('0009')) {
               queuenoCall = queueno.substring(3)
@@ -150,20 +149,37 @@ export default function Main() {
               queuenoCall = queueno.substring(2)
             }else if(parseInt(queueno) <= parseInt('0999')){
               queuenoCall = queueno.substring(1)
+            }else {
+              queuenoCall = notify?.Notification
             }
               audio.play();
-              assistant.say( `Queue Number ${queuenoCall}. Please go to ${notify?.type}`, {
-                lang:"en-US",
-               onStart: function() {
-                   if(assistant.isSpeaking()){
-                    i++;
-                    if(i>1){
-                      assistant.fatality()
-                      audio.pause();
-                    }
-                   }
-               },
-             });
+              if(notify?.type?.toLowerCase() !== 'Reception'.toLowerCase()) {
+                  assistant.say( `Queue Number ${queuenoCall}. Please go to ${notify?.type}`, {
+                    lang:"en-US",
+                   onStart: function() {
+                       if(assistant.isSpeaking()){
+                        i++;
+                        if(i>1){
+                          assistant.fatality()
+                          audio.pause();
+                        }
+                       }
+                   },
+                 });
+              } else{
+                assistant.say( `Reception Number ${queuenoCall}.`, {
+                  lang:"en-US",
+                 onStart: function() {
+                     if(assistant.isSpeaking()){
+                      i++;
+                      if(i>1){
+                        assistant.fatality()
+                        audio.pause();
+                      }
+                     }
+                 },
+               });
+              }
           }
         } 
         // else if (notifymobile.from === "CASHIER" &&  notify?.type !== "info") {

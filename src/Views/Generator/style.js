@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing(1),
+    // padding: theme.spacing(1),
     textAlign: "center",
     margin: 1,
     // color: theme.palette.text.secondary,
@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: ".1rem",
     wordSpacing: ".1rem",
     width: "100%",
+    overflow: "hidden"
+    
   },
   mainGrid: {
     width: "100%",

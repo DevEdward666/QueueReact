@@ -9,14 +9,13 @@ const QueueUI = () => {
   const counterview = useSelector((state) => state.QueueReducers.counterview);
 
   const counterlist = useSelector((state) => state.QueueReducers.counterlist);
-  console.log(counterlist);
   return (
     <div className={classes.root}>
       {counterview ? (
         <>
           <Paper>
             <Grid container spacing={0}>
-              <Grid item xs={4}>
+              <Grid item xs={6}>
                 <div
                   elevation={3}
                   style={{
@@ -38,7 +37,7 @@ const QueueUI = () => {
                   </Grid>
                 </div>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <div
                   elevation={3}
                   style={{
@@ -60,7 +59,7 @@ const QueueUI = () => {
                   </Grid>
                 </div>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <div
                   elevation={3}
                   style={{
@@ -92,7 +91,7 @@ const QueueUI = () => {
           <Grid container spacing={12}>
             {counterlist?.data?.map((card,index) =>  (
               <>
-                <Grid item xs={4} key={card.countername}>
+                <Grid item xs={6} key={card.countername}>
                   <Paper
                     elevation={3}
                     style={{
@@ -106,6 +105,13 @@ const QueueUI = () => {
                       style={{
                         fontSize: 50,
                         fontWeight: 600,
+                        textAlign: "left",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        wordWrap: "break-word",
+                        // overflow: 'hidden',
+                        // textOverflow: 'ellipsis',
+                        // whiteSpace: 'nowrap',
                       }}
                     >
                       {card.countername}
@@ -113,7 +119,7 @@ const QueueUI = () => {
                   </Paper>
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <Paper
                     elevation={3}
                     style={{
@@ -134,7 +140,7 @@ const QueueUI = () => {
                   </Paper>
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <Paper
                     elevation={3}
                     style={{
@@ -150,13 +156,13 @@ const QueueUI = () => {
                         fontWeight: 600,
                       }}
                     >
-                      {card.queueno.split('-')[2]  <= parseInt('0009')?
-                      card.queueno.split('-')[2].substring(3):
-                      card.queueno.split('-')[2]  <= parseInt('0099')?
-                      card.queueno.split('-')[2].substring(2):
-                      card.queueno.split('-')[2]  <= parseInt('0999')?
-                      card.queueno.split('-')[2].substring(1):
-                      card.queueno.split('-')[2].substring(2)}
+                      {card.queueno.split('|')[2]  <= parseInt('0009')?
+                      card.queueno.split('|')[2].substring(3):
+                      card.queueno.split('|')[2]  <= parseInt('0099')?
+                      card.queueno.split('|')[2].substring(2):
+                      card.queueno.split('|')[2]  <= parseInt('0999')?
+                      card.queueno.split('|')[2].substring(1):
+                      card.queueno.split('|')[2].substring(2)}
                     </div>
                   </Paper>
                 </Grid>
@@ -192,13 +198,13 @@ const QueueUI = () => {
                       fontWeight: 900,
                     }}
                   >
-                       {card.queueno.split('-')[2]  <= parseInt('0009')?
-                      card.queueno.split('-')[2].substring(3):
-                      card.queueno.split('-')[2]  <= parseInt('0099')?
-                      card.queueno.split('-')[2].substring(2):
-                      card.queueno.split('-')[2]  <= parseInt('0999')?
-                      card.queueno.split('-')[2].substring(1):
-                      card.queueno.split('-')[2].substring(2)}
+                      {card.queueno.split('|')[2]  <= parseInt('0009')?
+                      card.queueno.split('|')[2].substring(3):
+                      card.queueno.split('|')[2]  <= parseInt('0099')?
+                      card.queueno.split('|')[2].substring(2):
+                      card.queueno.split('|')[2]  <= parseInt('0999')?
+                      card.queueno.split('|')[2].substring(1):
+                      card.queueno.split('|')[2].substring(2)}
                   </div>
                   <div
                     style={{

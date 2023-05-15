@@ -18,6 +18,7 @@ import {
   GET_SERVED_KEEP_INFO,
   NUMBER_GENERATED_CASHIER,
   GET_REDIRECTO,
+  GET_RECEPTION_LAST_QUEUE
 } from "../Types/CashierTypes";
 
 const cashier = {
@@ -35,6 +36,7 @@ const cashier = {
   phonenumber: "",
   countertype: [],
   lastqueue: [],
+  receptionlastqueue:[],
   base64topdf: { base64: [] },
   keepservedinfo: { queueno: "", countername: "", counternumber: "" },
   number_generated_cashier: false,
@@ -52,6 +54,8 @@ const CashierReducers = (data_state = cashier, actions) => {
       return { ...data_state, base64topdf: actions.payload };
     case GET_LAST_QUEUE:
       return { ...data_state, lastqueue: actions.payload };
+    case GET_RECEPTION_LAST_QUEUE:
+      return { ...data_state, receptionlastqueue: actions.payload };
     case SET_COUNTER_TYPE:
       return { ...data_state, countertype: actions.payload };
     case SET_CLIENT_PHONE_NUMBER:

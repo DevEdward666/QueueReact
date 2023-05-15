@@ -110,7 +110,7 @@ function Login() {
             marginTop: 50,
           }}
         >
-          Powered By TUO IT Solutions
+          Powered By
         </div>
       </section>
     </div>

@@ -14,6 +14,7 @@ import {
   SET_WAITINGLIST,
   SET_RECEPTION_WAITINGLIST,
   SET_BASE64TO_PDF,
+  GET_RECEPTION_LAST_QUEUE,
   GET_SERVED_KEEP_INFO,
   NUMBER_GENERATED_CASHIER,
   GET_REDIRECTO,
@@ -533,7 +534,7 @@ export const action_get_reception_last_queue = () => async (dispatch) => {
   });
   const jsonData = await response.json();
   dispatch({
-    type: GET_LAST_QUEUE,
+    type: GET_RECEPTION_LAST_QUEUE,
     payload: jsonData.data,
   });
   console.log(jsonData.data);

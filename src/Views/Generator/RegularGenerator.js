@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-
+import {
+  action_get_last_queue,
+} from "../../Services/Actions/CashierActions";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./style";
@@ -27,8 +29,9 @@ export default function RegularGenerator() {
   const [close, setClose] = useState(false);
   const [open, setOpen] = useState(false);
   const [counter, setcounter] = useState([]);
-
+  const lastqueue = useSelector((state) => state.CashierReducers.lastqueue);
   const [queueno, setqueueno] = useState([]);
+  const [generatenumber, setgenerate] = useState(false);
   const generate = useCallback(
     async (card) => {
       dispatch(generatenumberregular(card.countername));
@@ -54,6 +57,7 @@ export default function RegularGenerator() {
               "GENERATE"
             )
           );
+          dispatch(GeneratorRegular());
         }
       }
     };
@@ -74,6 +78,7 @@ export default function RegularGenerator() {
       mounted = false;
     };
   }, [dispatch]);
+
   return (
     <div className="container">
       <CustomBackDrop open={openbackdrop} message="Printing Queue Ticket" />
@@ -104,7 +109,7 @@ export default function RegularGenerator() {
                 style={{
                   display: "grid",
                   gridGap: "2em",
-                  padding: "1em",
+                  padding: "1vh",
                 }}
                 className={classes.paper}
               >
@@ -114,7 +119,21 @@ export default function RegularGenerator() {
                     fontWeight: 600,
                   }}
                 >
-                  {card.countername.replace("_", " ")}
+                  {card.countername.includes('_') ? card.countername.replace("_", " ") : card.countername}
+                  
+                <p
+                  style={{
+                    fontSize: 12,
+                  }}
+                >
+                  On Queue: {card.queueno===null? 0 : card.queueno.split('|')[2]  <= parseInt('0009')?
+                      card.queueno.split('|')[2].substring(3):
+                      card.queueno.split('|')[2]  <= parseInt('0099')?
+                      card.queueno.split('|')[2].substring(2):
+                      card.queueno.split('|')[2]  <= parseInt('0999')?
+                      card.queueno.split('|')[2].substring(1):
+                      card.queueno.split('|')[2].substring(2)}
+                </p>
                 </div>
               </Paper>
             </IconButton>

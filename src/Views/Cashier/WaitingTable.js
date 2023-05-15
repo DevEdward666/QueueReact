@@ -74,12 +74,12 @@ export default function WaitingTable() {
               ?.map((row, index) =>(
                 <TableRow key={row.queueno}>
                   <TableCell>
-                    {row.queueno.split('-')[2]  <= parseInt('0009')?
-                    row.queueno.split('-')[2].substring(3):
-                    row.queueno.split('-')[2]  <= parseInt('0099')?
-                    row.queueno.split('-')[2].substring(2):
-                    row.queueno.split('-')[2]  <= parseInt('0999')?
-                    row.queueno.split('-')[2].substring(1): row.queueno.split('-')[2].substring(2)}
+                    {row.queueno.split('|')[2]  <= parseInt('0009')?
+                    row.queueno.split('|')[2].substring(3):
+                    row.queueno.split('|')[2]  <= parseInt('0099')?
+                    row.queueno.split('|')[2].substring(2):
+                    row.queueno.split('|')[2]  <= parseInt('0999')?
+                    row.queueno.split('|')[2].substring(1): row.queueno.split('|')[2].substring(2)}
                   </TableCell>
                   <TableCell>{moment(row.date).format("hh:mm:ss A")}</TableCell>
                 </TableRow>
